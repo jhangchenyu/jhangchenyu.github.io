@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>研究｜Chen-Yu Jhang</title>
+  <meta name="description" content="Chen-Yu Jhang 的研究經驗：離子阱量子計算實驗平台、EIT 光譜與多能階建模、射頻阻抗匹配，以及機器學習粒子軌跡辨識。">
+  <meta name="theme-color" content="#152325">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23152325'/%3E%3Ctext x='20' y='29' text-anchor='middle' font-family='Georgia,serif' font-size='28' fill='white'%3Ej%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要內容</a>
+  <div class="wrap">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Chen-Yu Jhang 首頁"><span class="brand-mark" aria-hidden="true">j.</span>Chen-Yu Jhang</a>
+      <nav class="site-nav" aria-label="主要導覽"><a href="index.html">個人</a><a href="research.html" aria-current="page">研究</a></nav>
+    </header>
+    <main id="main">
+      <div class="page-intro">
+        <p class="eyebrow">Selected Research Experience</p>
+        <h1>研究 <em>Research</em></h1>
+        <p class="lead">從原子系統的數值模型，到光學、射頻與實驗控制，<br>這裡整理我參與過的研究工作與使用的方法。</p>
+      </div>
+      <nav class="research-index" aria-label="研究主題索引">
+        <a href="#trapped-ions"><span class="num">01</span>離子阱量子計算</a>
+        <a href="#rf-design"><span class="num">02</span>射頻系統</a>
+        <a href="#particle-tracking"><span class="num">03</span>機器學習</a>
+        <a href="#methods"><span class="num">04</span>研究方法</a>
+      </nav>
+      <section class="research-section" id="trapped-ions" aria-labelledby="ions-title">
+        <div><p class="eyebrow">01 / QUANTUM SCIENCE</p><p class="research-meta">2018 — 2022<br>實驗平台開發</p></div>
+        <div>
+          <h2 class="research-title" id="ions-title">離子阱量子計算實驗平台</h2>
+          <p class="research-subtitle">Trapped-ion Quantum Computing Platform</p>
+          <p class="research-copy">參與單離子捕獲平台開發，將多能階原子系統的數值模型與光譜量測相互連結。工作涵蓋 EIT 光譜、Python 實驗自動化，以及支援平台運作的光學、真空與控制系統。</p>
+          <ul class="tag-list" aria-label="研究技術"><li>Trapped ions</li><li>EIT spectroscopy</li><li>Lindblad equation</li><li>Python</li></ul>
+          <dl class="project-facts"><div><dt>理論與模擬</dt><dd>以 Lindblad 方程模擬多能階原子系統的非線性光譜。</dd></div><div><dt>實驗與控制</dt><dd>EIT 光譜量測、實驗控制自動化與資料擷取。</dd></div></dl>
+          <figure class="research-figure">
+            <ol class="workflow" aria-label="模型、控制與量測的研究工作流程">
+              <li><strong>原子系統模型</strong><span>Lindblad equation</span></li>
+              <li><strong>實驗控制</strong><span>Python automation</span></li>
+              <li><strong>光譜量測</strong><span>EIT spectroscopy</span></li>
+            </ol>
+            <p class="workflow-caption">模型與量測相互比較</p>
+            <figcaption>研究方法概念圖，呈現建模、控制與量測之間的連結。</figcaption>
+          </figure>
+          <div class="research-details">
+            <details><summary>多能階建模與 EIT 光譜</summary><div class="detail-content"><p>使用 Lindblad 方程描述原子系統，進行非線性光譜的數值模擬，並參與電磁誘發透明（Electromagnetically Induced Transparency, EIT）光譜量測。</p><p>建模與量測是此研究的兩個相互連結的部分：前者描述原子系統的動態，後者提供實驗中的光譜資訊。</p></div></details>
+            <details><summary>實驗平台與自動化</summary><div class="detail-content"><ul><li>使用 Python 自動化實驗控制與資料擷取。</li><li>建立離子源準備及光譜校準流程。</li><li>參與真空腔體、光路與雷射頻率控制電路設計。</li></ul></div></details>
+          </div>
+        </div>
+      </section>
+      <section class="research-section" id="rf-design" aria-labelledby="rf-title">
+        <div><p class="eyebrow">02 / RF ENGINEERING</p><p class="research-meta">射頻設計與模擬</p></div>
+        <div>
+          <h2 class="research-title" id="rf-title">螺旋共振器與射頻阻抗匹配</h2>
+          <p class="research-subtitle">Helical Resonator &amp; RF Impedance Matching</p>
+          <p class="research-copy">使用 HFSS 設計約 100 MHz 頻段的阻抗匹配元件，並設計方向耦合器監測訊號振幅。這項工作連結電磁模擬、射頻元件設計與實驗系統的訊號需求。</p>
+          <ul class="tag-list" aria-label="研究技術"><li>HFSS</li><li>RF design</li><li>Helical resonator</li><li>Directional coupler</li></ul>
+          <details><summary>設計範圍與技術重點</summary><div class="detail-content"><p>研究包含螺旋共振器與阻抗匹配元件的設計，以及用於訊號振幅監測的方向耦合器。使用 HFSS 進行射頻結構的電磁模擬。</p><p>工作重點是將元件設計、訊號傳輸與監測需求整合到實驗環境中。</p></div></details>
+        </div>
+      </section>
+      <section class="research-section" id="particle-tracking" aria-labelledby="tracking-title">
+        <div><p class="eyebrow">03 / MACHINE LEARNING</p><p class="research-meta">資料分析與模型應用</p></div>
+        <div>
+          <h2 class="research-title" id="tracking-title">帶電粒子軌跡辨識</h2>
+          <p class="research-subtitle">Machine Learning for Charged-particle Tracking</p>
+          <p class="research-copy">探索機器學習於帶電粒子軌跡辨識的應用。從資料特徵視覺化與篩選出發，使用 KNN 與圖神經網路（GNN），進行粒子軌跡中節點及連線的分類。</p>
+          <ul class="tag-list" aria-label="研究技術"><li>Machine learning</li><li>KNN</li><li>Graph neural networks</li><li>Data visualization</li></ul>
+          <details><summary>資料處理與模型方法</summary><div class="detail-content"><ul><li>透過視覺化檢視資料特徵，並進行特徵篩選。</li><li>應用 K-nearest neighbors（KNN）方法。</li><li>使用圖神經網路，處理軌跡資料中的節點與連線分類問題。</li></ul></div></details>
+        </div>
+      </section>
+      <section class="content-section" id="methods" aria-labelledby="methods-title">
+        <div class="section-heading"><span class="section-number">04 / METHODS</span><h2 id="methods-title">研究方法</h2></div>
+        <div>
+          <ul class="method-list">
+            <li><h3>數值建模</h3><p>多能階原子系統、Lindblad 方程、非線性光譜模擬。</p></li>
+            <li><h3>實驗自動化</h3><p>Python 實驗控制、資料擷取與光譜校準流程。</p></li>
+            <li><h3>硬體與量測</h3><p>光學與真空系統、雷射頻率控制、射頻元件設計。</p></li>
+            <li><h3>資料分析</h3><p>特徵視覺化、KNN 與圖神經網路應用。</p></li>
+          </ul>
+          <p class="quiet-note">以上為過往研究經驗整理；圖解用於說明研究概念與方法。</p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><p>© 2026 Chen-Yu Jhang</p><a href="index.html">返回個人頁</a><a href="#main">回到頂端</a></footer>
+  </div>
+</body>
+</html>
