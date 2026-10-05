@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#152325">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23152325'/%3E%3Ctext x='20' y='29' text-anchor='middle' font-family='Georgia,serif' font-size='28' fill='white'%3Ej%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/motion.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要內容</a>
@@ -17,6 +18,7 @@
       <nav class="site-nav" aria-label="主要導覽">
         <a href="index.html" aria-current="page">個人</a>
         <a href="research.html">研究</a>
+        <button class="motion-toggle" type="button" hidden>暫停動畫</button>
       </nav>
     </header>
     <main id="main">
@@ -35,7 +37,7 @@
             <div class="figure-heading"><span>QUANTUM OPTICS</span><span>FIG. 01</span></div>
             <svg viewBox="0 0 440 300" role="img" aria-labelledby="eit-title eit-desc">
               <title id="eit-title">電磁誘發透明的三能階概念圖</title>
-              <desc id="eit-desc">探測光與控制光將兩個較低能階耦合到同一激發態，構成 Lambda 型三能階系統。此圖為概念示意，並非量測資料。</desc>
+              <desc id="eit-desc">探測光與控制光將兩個較低能階耦合到同一激發態，構成 Lambda 型三能階系統。光點示意光場耦合方向，並非離子移動或實測動態。</desc>
               <defs>
                 <marker id="tip-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#214fc3"/></marker>
                 <marker id="tip-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#152325"/></marker>
@@ -44,12 +46,14 @@
               <g stroke="#152325" stroke-width="2.5"><path d="M175 60H265M40 250H130M310 220H400"/></g>
               <path d="M92 237 210 74" stroke="#214fc3" stroke-width="2" fill="none" marker-end="url(#tip-blue)"/>
               <path d="M347 207 237 74" stroke="#152325" stroke-width="2" fill="none" marker-end="url(#tip-dark)"/>
+              <g class="light-packet light-packet-probe" aria-hidden="true"><circle r="10" fill="#214fc3" opacity=".12"/><circle r="4" fill="#214fc3"/></g>
+              <g class="light-packet light-packet-control" aria-hidden="true"><circle r="10" fill="#152325" opacity=".12"/><circle r="4" fill="#152325"/></g>
               <g font-family="Georgia,serif" font-size="21" fill="#152325"><text x="207" y="42">|e⟩</text><text x="65" y="282">|g₁⟩</text><text x="338" y="253">|g₂⟩</text></g>
               <g font-family="Georgia,serif" font-style="italic" font-size="23"><text x="108" y="142" fill="#214fc3">Ωp</text><text x="310" y="128" fill="#152325">Ωc</text></g>
             </svg>
             <p class="figure-footer"><span>Probe / 探測光</span><span>Control / 控制光</span></p>
           </div>
-          <figcaption>電磁誘發透明（EIT）三能階概念示意。實際研究包含多能階原子系統。</figcaption>
+          <figcaption>電磁誘發透明（EIT）三能階概念示意。光點表示光場耦合方向；實際研究包含多能階原子系統。</figcaption>
         </figure>
       </section>
       <div class="interest-strip" aria-label="研究領域">
