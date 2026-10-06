@@ -2,10 +2,10 @@
 title: "2026 投資想法"
 description: "記下玻璃基板、CPO、先進製程、儲存、量子計算、機器人、國防、電力與生技的 11 條觀察線索。"
 date: "2026-10-06"
-category: finance
+category: singularity
 slug: investment-ideas-2026
-cover: /assets/images/investment-ideas-2026.svg
-coverAlt: "十一個研究節點連接成投資觀察網絡的概念圖"
+cover: /assets/images/investment-ideas-2026.png
+coverAlt: "研究桌上陳列玻璃基板、晶片、光纖、電源與機器零件等樣本的概念插畫"
 tags: [投資想法, "2026", 科技趨勢, 觀察清單]
 status: published
 sourceNote: "2026-10-06 的個人觀察清單。價格目標、技術導入與合作設廠均屬待驗證假設；公司產品、研發展示、客戶驗證與量產收入是不同階段。本文不是買賣建議。"
