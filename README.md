@@ -2,6 +2,8 @@
 
 個人網站以 Markdown 管理文章，使用 Eleventy 產生靜態網頁，再由 GitHub Actions 發布到 GitHub Pages。
 
+修改網站內容或文章，請先看 [網站內容與文章更新中文教學](文章更新教學.md)，內含首頁、個人介紹、研究分類、推薦網站與文章的修改位置、範例及發布步驟。
+
 - 網站：https://jhangchenyu.github.io/
 - 發布狀態：https://github.com/jhangchenyu/jhangchenyu.github.io/actions
 
@@ -70,7 +72,7 @@ status: draft
 | 文章 | `src/posts/*.md` |
 | 樣式、動畫、搜尋 | `src/assets/` |
 
-新增推薦網站只需編輯 `resources.json`，填入名稱、網址、簡介與分類，沿用現有格式即可。除文章外的網站設定或版面修改，需要提交相關檔案並 `git push`，不會由文章發布工具代為提交。
+新增推薦網站請編輯 `resources.json`，填入名稱 `name`、網址 `url`、顯示網域 `host`、分組 `group`、網站類型 `type` 與簡介 `description`。沿用既有分組時只需改這個檔案；新增分組還要在 `src/links.njk` 的 `resourceGroups` 加入同名分組。除文章外的網站設定或版面修改，需要提交相關檔案並 `git push`，不會由文章發布工具代為提交。完整指令與範例見中文教學。
 
 ## 換電腦或重新安裝
 

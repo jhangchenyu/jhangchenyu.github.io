@@ -1,4 +1,5 @@
 [
+  { "name": "凝視奇點的物理學徒", "url": "https://physics2045.blog/", "host": "physics2045.blog", "group": "個人部落格", "type": "個人部落格", "description": "物理、量子資訊、加密貨幣與未來文明的長期筆記，包含技術文章、閱讀心得與生活紀錄。" },
   { "name": "NIST Quantum Information Science", "url": "https://www.nist.gov/quantum-information-science", "host": "nist.gov", "group": "量子計算", "type": "官方研究機構", "description": "量子計算、感測與網路的研究計畫及基礎解說。" },
   { "name": "arXiv · Quantum Physics", "url": "https://arxiv.org/list/quant-ph/recent", "host": "arxiv.org", "group": "量子計算", "type": "論文與預印本平台", "description": "追蹤量子物理與量子資訊的新論文；閱讀時另行確認同行審查與出版狀態。" },
   { "name": "IEEE Heterogeneous Integration Roadmap", "url": "https://eps.ieee.org/technology/heterogeneous-integration-roadmap/", "host": "eps.ieee.org", "group": "先進封裝 SI/PI", "type": "官方學會", "description": "從異質整合路線圖理解封裝、互連、散熱與測試的技術挑戰。" },

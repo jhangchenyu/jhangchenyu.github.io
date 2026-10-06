@@ -4,11 +4,12 @@ title: 推薦網站
 navSection: links
 permalink: /links/index.html
 resourceGroups:
+  - 個人部落格
   - 量子計算
   - 先進封裝 SI/PI
   - AI 與科技趨勢
   - 軍工與前沿技術
 ---
-<div class="page-intro"><p class="eyebrow">READING & RESEARCH</p><h1>推薦網站<span class="english-heading">Good places to start.</span></h1><p class="lead">從論文、標準到公開研究報告，<br>整理能繼續追問、回到原始資料的閱讀入口。</p></div>
+<div class="page-intro"><p class="eyebrow">READING & RESEARCH</p><h1>推薦網站<span class="english-heading">Good places to start.</span></h1><p class="lead">從個人部落格、論文與標準，到公開研究報告，<br>整理值得持續閱讀、延伸探索的網站。</p></div>
 <nav class="topic-tabs" aria-label="網站分類">{% for group in resourceGroups %}<a href="#resources-{{ loop.index }}">{{ group }}</a>{% endfor %}</nav>
 {% for group in resourceGroups %}<section class="link-section" id="resources-{{ loop.index }}"><h2>{{ group }}</h2><div class="resource-grid">{% for resource in resources %}{% if resource.group == group %}<article class="resource"><p class="resource-type">{{ resource.type }}</p><h3><a href="{{ resource.url }}" target="_blank" rel="noopener noreferrer">{{ resource.name }}<span class="sr-only">（開啟新分頁）</span></a></h3><p>{{ resource.description }}</p><span class="resource-host">{{ resource.host }}</span></article>{% endif %}{% endfor %}</div></section>{% endfor %}
