@@ -24,15 +24,28 @@
     for (const entry of matches) {
       const row = node('article', undefined, 'article-row');
       const meta = node('div', undefined, 'article-meta');
-    const date = node('time', `發布 ${entry.date}`); date.dateTime = entry.date;
+      const date = node('time', `發布 ${entry.date}`); date.dateTime = entry.date;
       meta.append(node('span', entry.categoryName), date);
-      const body = node('div');
+      const body = node('div', undefined, 'article-body');
       const heading = node('h3');
       const link = node('a', entry.title); link.href = entry.url; heading.append(link);
       const tags = node('div', undefined, 'article-tags');
       entry.tags.forEach(tag => tags.append(node('span', '#' + tag)));
       body.append(heading, node('p', entry.description), tags);
-      row.append(meta, body); list.append(row);
+      const side = node('div', undefined, 'article-side');
+      if (entry.cover) {
+        const thumb = node('a', undefined, 'article-thumb');
+        thumb.href = entry.url;
+        thumb.setAttribute('aria-label', `閱讀：${entry.title}`);
+        const img = document.createElement('img');
+        img.src = entry.cover;
+        img.alt = entry.coverAlt || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        thumb.append(img);
+        side.append(thumb);
+      }
+      row.append(meta, body, side); list.append(row);
     }
     if (!matches.length) {
       const empty = node('div', undefined, 'empty-state');

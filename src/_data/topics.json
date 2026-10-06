@@ -6,7 +6,7 @@
   { "id": "defense", "name": "軍工", "section": "research", "path": "/research/defense/", "english": "Defense technology", "number": "05", "description": "從公開資料觀察國防科技、產業與供應鏈。", "keywords": ["國防科技", "產業", "公開資料"] },
   { "id": "singularity", "name": "奇點研究", "section": "research", "path": "/research/singularity/", "english": "Technology & the future", "number": "06", "description": "跨領域追蹤技術突破、產業變化，以及仍待回答的問題。", "keywords": ["科技趨勢", "跨領域", "長期觀察"] },
   { "id": "biotech", "name": "生物科技", "section": "research", "path": "/research/biotech/", "english": "Biotech", "number": "07", "description": "追蹤生物科技、AI 製藥與材料模擬等跨領域技術進展。", "keywords": ["生物科技", "AI 製藥", "材料模擬"] },
-  { "id": "work", "name": "工作", "section": "journal", "path": "/journal/work/", "english": "Work & practice", "number": "01", "description": "工作方法、工具使用與工程實作的心得。", "keywords": ["工程日常", "工作方法", "工具"] },
+  { "id": "finance", "name": "財務", "section": "journal", "path": "/journal/finance/", "english": "Personal finance", "number": "01", "description": "記錄個人理財、退休規劃與財務選擇的想法。", "keywords": ["理財", "退休", "財務規劃"] },
   { "id": "travel", "name": "旅遊", "section": "journal", "path": "/journal/travel/", "english": "Places & journeys", "number": "02", "description": "記下走過的地方、途中遇見的風景與細節。", "keywords": ["旅行", "城市", "途中"] },
   { "id": "notes", "name": "亂寫", "section": "journal", "path": "/journal/notes/", "english": "Notes & other things", "number": "03", "description": "還沒歸類的想法、閱讀隨筆，以及生活裡想留下的片段。", "keywords": ["隨筆", "閱讀", "生活"] }
 ]

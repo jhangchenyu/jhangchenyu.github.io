@@ -4,8 +4,8 @@
   {% set topic = post.data.category | topicFor %}
   <article class="article-row">
     <div class="article-meta"><span>{{ topic.name }}</span><time datetime="{{ post.date | dateText }}">發布 {{ post.date | dateText }}</time></div>
-    <div><h3><a href="{{ post.url | url }}">{{ post.data.title }}</a></h3><p>{{ post.data.description }}</p><div class="article-tags">{% for tag in post.data.tags %}<span>#{{ tag }}</span>{% endfor %}</div></div>
-    <span class="read-time">{{ post.templateContent | readTime }} 分鐘閱讀</span>
+    <div class="article-body"><h3><a href="{{ post.url | url }}">{{ post.data.title }}</a></h3><p>{{ post.data.description }}</p><div class="article-tags">{% for tag in post.data.tags %}<span>#{{ tag }}</span>{% endfor %}</div></div>
+    <div class="article-side">{% if post.data.cover %}<a class="article-thumb" href="{{ post.url | url }}" aria-label="閱讀：{{ post.data.title }}"><img src="{{ post.data.cover | url }}" alt="{{ post.data.coverAlt }}" loading="lazy" decoding="async"></a>{% endif %}<span class="read-time">{{ post.templateContent | readTime }} 分鐘閱讀</span></div>
   </article>
 {% endfor %}
 </div>

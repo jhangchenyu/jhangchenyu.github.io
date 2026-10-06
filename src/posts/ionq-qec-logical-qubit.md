@@ -4,6 +4,8 @@ description: "看容錯量子計算時，問題不是有幾顆 qubit，而是要
 date: "2026-09-24"
 category: quantum
 slug: ionq-qec-logical-qubit
+cover: /assets/images/research-quantum-qec.webp
+coverAlt: "離子阱量子處理器與光束的概念插畫"
 tags: [QEC, logical qubit, qLDPC, 離子阱]
 status: published
 sourceNote: "整理自 2026-09-24 的 X 長文，談的是 IonQ 的 QEC 路線，不是該公司當日其他新聞稿的逐句翻譯。"

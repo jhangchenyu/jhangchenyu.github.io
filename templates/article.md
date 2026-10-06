@@ -6,6 +6,8 @@ category: quantum
 slug: your-article-slug
 tags: [標籤一, 標籤二]
 status: draft
+# 選填封面：cover: /assets/articles/your-article-slug/cover.jpg
+# 有封面時，也填 coverAlt: "圖片內容說明"
 ---
 
 ## 想討論的問題

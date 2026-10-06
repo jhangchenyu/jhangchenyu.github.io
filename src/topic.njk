@@ -10,7 +10,7 @@ eleventyComputed:
   navSection: "{{ topic.section }}"
 permalink: "{{ topic.path }}index.html"
 ---
-<nav class="breadcrumb" aria-label="麵包屑"><a href="{{ '/' | url }}">個人</a><span>/</span>{% if topic.section == 'research' %}<a href="{{ '/research/' | url }}">研究主題</a>{% else %}<a href="{{ '/journal/' | url }}">個人日誌</a>{% endif %}<span>/</span><span>{{ topic.name }}</span></nav>
+<nav class="breadcrumb" aria-label="麵包屑"><a href="{{ '/' | url }}">個人</a><span>/</span>{% if topic.section == 'research' %}<a href="{{ '/research/' | url }}">研究主題</a>{% else %}<a href="{{ '/articles/' | url }}">文章索引</a>{% endif %}<span>/</span><span>{{ topic.name }}</span></nav>
 <div class="page-intro topic-intro"><p class="eyebrow">{{ topic.english }}</p><h1>{{ topic.name }}</h1><p class="lead">{{ topic.description }}</p></div>
-{% set allArticlesPath = '/research/' if topic.section == 'research' else '/journal/' %}<nav class="topic-tabs" aria-label="同領域分類"><a href="{{ allArticlesPath | url }}">所有文章</a>{% for item in topics %}{% if item.section == topic.section %}<a href="{{ item.path | url }}"{% if item.id == topic.id %} aria-current="page"{% endif %}>{{ item.name }}</a>{% endif %}{% endfor %}</nav>
+{% set allArticlesPath = '/research/' if topic.section == 'research' else '/articles/' %}<nav class="topic-tabs" aria-label="同領域分類"><a href="{{ allArticlesPath | url }}">{{ '所有文章' if topic.section == 'research' else '文章索引' }}</a>{% for item in topics %}{% if item.section == topic.section %}<a href="{{ item.path | url }}"{% if item.id == topic.id %} aria-current="page"{% endif %}>{{ item.name }}</a>{% endif %}{% endfor %}</nav>
 <section class="archive-section"><div class="archive-heading"><h2>所有文章</h2><span>{{ (collections.articles | inTopic(topic.id)).length }} 篇 · 由新到舊</span></div>{% set articleList = collections.articles | inTopic(topic.id) %}{% include 'article-list.njk' %}</section>

@@ -19,6 +19,14 @@ for (const name of fs.readdirSync(path.join(root, 'src/posts')).filter(name => n
   if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) > publicationDay) problems.push('日期無效或尚未到發布日');
   if (!content.trim()) problems.push('文章沒有內文');
   if (data.tags && (!Array.isArray(data.tags) || !data.tags.every(tag => typeof tag === 'string'))) problems.push('tags 必須是文字陣列');
+  if (data.cover) {
+    const assetRoot = path.resolve(root, 'src/assets');
+    const coverPath = typeof data.cover === 'string' ? path.resolve(root, 'src', data.cover.replace(/^\//, '')) : '';
+    if (typeof data.cover !== 'string' || !data.cover.startsWith('/assets/') ||
+        !coverPath.startsWith(assetRoot + path.sep) || !fs.existsSync(coverPath) ||
+        !fs.statSync(coverPath).isFile()) problems.push('cover 必須指向 src/assets 內現有的圖片');
+    if (typeof data.coverAlt !== 'string' || !data.coverAlt.trim()) problems.push('有封面時必須填寫 coverAlt 圖片說明');
+  }
   if (/\]\((?:file:|[A-Za-z]:[\\/])/i.test(content)) problems.push('圖片或連結不可使用本機絕對路徑');
   if (problems.length) failures.push(`${name}: ${problems.join('；')}`);
 }

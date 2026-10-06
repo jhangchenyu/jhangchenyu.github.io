@@ -48,6 +48,8 @@ module.exports = function(config) {
     title: article.data.title, description: article.data.description,
     category: article.data.category, categoryName: topics.find(t => t.id === article.data.category).name,
     tags: article.data.tags || [], date: articleDate(article.date),
+    cover: article.data.cover ? prefix(article.data.cover) : null,
+    coverAlt: article.data.coverAlt || '',
     text: plainText(article.templateContent), url: prefix(article.url)
   })));
   config.addFilter('absolute', value => `${site.url}${prefix(value)}`);

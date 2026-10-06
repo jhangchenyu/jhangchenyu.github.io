@@ -4,6 +4,8 @@ description: "從迴路電感看 HPC 的多級去耦合：PCB 上的 MLCC、基�
 date: "2026-05-03"
 category: packaging-sipi
 slug: ipd-embedded-cap-pdn
+cover: /assets/images/research-ipd-pdn.webp
+coverAlt: "晶片封裝內電源路徑與電容配置的概念插畫"
 tags: [IPD, PDN, 內嵌電容, eDTC, PI]
 status: published
 sourceNote: "整理自 2026-05-03 的 X 長文。電壓、電流、頻率範圍與分層，都是該日的觀察。"

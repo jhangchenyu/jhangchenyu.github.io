@@ -4,6 +4,8 @@ description: "整理玻璃核心基板要解決的翹曲、互連密度與高頻
 date: "2026-02-22"
 category: packaging-sipi
 slug: glass-core-substrate
+cover: /assets/images/research-glass-core.webp
+coverAlt: "玻璃基板與金屬化通孔陣列的概念插畫"
 tags: [玻璃基板, TGV, GCS, 先進封裝]
 status: published
 sourceNote: "整理自 2026-02-22 的 X 長文。文中的「目前」「預計」與試產時程，都以該日的筆記為準，不是事後回補。"

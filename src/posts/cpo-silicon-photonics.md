@@ -4,6 +4,8 @@ description: "2024 年整理的矽光子筆記：光比起電訊號的延遲、�
 date: "2024-07-30"
 category: cpo
 slug: cpo-silicon-photonics
+cover: /assets/images/research-cpo.webp
+coverAlt: "晶片與鄰近光學元件連接光纖的概念插畫"
 tags: [矽光子, CPO, 光互連]
 status: published
 sourceNote: "整理自 2024-07-30 的 X 串文，是較早的矽光子筆記。"
