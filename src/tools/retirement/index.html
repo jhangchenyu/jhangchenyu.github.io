@@ -170,7 +170,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 <noscript><p style="padding:1rem;text-align:center">請啟用 JavaScript 以使用退休計畫模擬器。</p></noscript>
 <div class="header"><div class="header-inner">
 <h1>退休計畫模擬器</h1>
-<p>雙薪家庭 · 自動計算 vs 自訂退休年齡 · 雙軌對照</p>
+<p>雙薪家庭 · 自動計算 vs 自訂退休年齡 · 金額皆以今日幣值呈現</p>
 <span class="precision-badge">精度 0.25 年（每季）</span>
 </div></div>
 
@@ -182,7 +182,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
     <div class="dash-panel-header"><span class="dash-panel-title">自動計算</span><span class="dash-panel-tag tag-auto">最早可退休</span></div>
     <div class="dash-grid">
       <div class="dash-cell"><div class="dc-label">退休年齡</div><div class="dc-value auto-val" id="a-age">—</div><div class="dc-sub" id="a-years"></div></div>
-      <div class="dash-cell"><div class="dc-label">退休時資產</div><div class="dc-value auto-val" id="a-fire">—</div><div class="dc-sub" id="a-fire-real"></div></div>
+      <div class="dash-cell"><div class="dc-label">退休時資產</div><div class="dc-value auto-val" id="a-fire">—</div><div class="dc-sub">今日幣值</div></div>
       <div class="dash-cell"><div class="dc-label">退休時月支出</div><div class="dc-value auto-val" id="a-exp">—</div><div class="dc-sub" id="a-exp-sub"></div></div>
       <div class="dash-cell success"><div class="dc-label">預期壽命時剩餘</div><div class="dc-value auto-val" id="a-end">0 萬</div><div class="dc-sub">設計歸零</div></div>
     </div>
@@ -191,7 +191,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
     <div class="dash-panel-header"><span class="dash-panel-title">自訂模式</span><span class="dash-panel-tag tag-manual">手動調整</span></div>
     <div class="dash-grid">
       <div class="dash-cell"><div class="dc-label">退休年齡</div><div class="dc-value manual-val" id="m-age">—</div><div class="dc-sub" id="m-years"></div></div>
-      <div class="dash-cell"><div class="dc-label">退休時資產</div><div class="dc-value manual-val" id="m-fire">—</div><div class="dc-sub" id="m-fire-real"></div></div>
+      <div class="dash-cell"><div class="dc-label">退休時資產</div><div class="dc-value manual-val" id="m-fire">—</div><div class="dc-sub">今日幣值</div></div>
       <div class="dash-cell"><div class="dc-label">退休時月支出</div><div class="dc-value manual-val" id="m-exp">—</div><div class="dc-sub" id="m-exp-sub"></div></div>
       <div class="dash-cell" id="m-end-cell"><div class="dc-label">預期壽命時剩餘</div><div class="dc-value manual-val" id="m-end">—</div><div class="dc-sub" id="m-end-sub"></div></div>
     </div>
@@ -254,9 +254,9 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
             <label class="series-tog auto-tog active" id="tog-show-auto"><input type="checkbox" checked><span class="tog-dot"></span>自動</label>
             <label class="series-tog manual-tog active" id="tog-show-manual"><input type="checkbox" checked><span class="tog-dot"></span>自訂</label>
           </div>
-          <div class="toggle-group">
-            <button class="toggle-btn active" id="tog-nominal" data-mode="nominal">名目</button>
-            <button class="toggle-btn" id="tog-real" data-mode="real">實質（今日幣值）</button>
+          <div class="toggle-group" role="group" aria-label="縱軸刻度">
+            <button class="toggle-btn active" id="tog-linear" data-scale="linear" aria-pressed="true">線性軸</button>
+            <button class="toggle-btn" id="tog-log" data-scale="log" aria-pressed="false">對數軸</button>
           </div>
         </div>
       </div>
@@ -293,6 +293,8 @@ const $ = id => document.getElementById(id);
 
 const stepRate = annual => Math.pow(1 + annual, STEP) - 1;
 const fmt = n => Math.round(n).toLocaleString();
+const todayValue = (amount, atAge, p) => amount / Math.pow(1 + p.inf, atAge - p.age);
+const fmtChart = n => Math.abs(n) < 1 ? n.toLocaleString('zh-TW', { maximumFractionDigits: 2 }) : fmt(n);
 const ageDisplay = a => {
   const y = Math.floor(a + 1e-9);
   const m = Math.round((a - y) * 12);
@@ -403,7 +405,7 @@ const PREVIOUS_DEFAULTS = {
   'i-manual-age': 50
 };
 
-let chartMode = 'nominal'; // 'nominal' | 'real'
+let axisScale = 'linear'; // 'linear' | 'log'
 let showAuto = true;
 let showManual = true;
 let chart = null;
@@ -432,7 +434,7 @@ function saveState() {
   const state = {};
   Object.keys(DEFAULTS).forEach(id => state[id] = $(id).value);
   state.defaults = { ...DEFAULTS };
-  state.chartMode = chartMode;
+  state.axisScale = axisScale;
   state.showAuto = showAuto;
   state.showManual = showManual;
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
@@ -450,7 +452,7 @@ function loadState() {
       if (String(state[id]) === String(savedDefaults[id] ?? DEFAULTS[id])) return;
       $(id).value = state[id];
     });
-    if (state.chartMode) chartMode = state.chartMode;
+    if (state.axisScale === 'log') axisScale = 'log';
     if (state.showAuto !== undefined) showAuto = state.showAuto;
     if (state.showManual !== undefined) showManual = state.showManual;
   } catch (e) {}
@@ -458,7 +460,7 @@ function loadState() {
 
 function resetState() {
   Object.keys(DEFAULTS).forEach(id => $(id).value = DEFAULTS[id]);
-  chartMode = 'nominal';
+  axisScale = 'linear';
   showAuto = true;
   showManual = true;
   updateToggle();
@@ -474,8 +476,11 @@ function updateSeriesToggles() {
 }
 
 function updateToggle() {
-  $('tog-nominal').classList.toggle('active', chartMode === 'nominal');
-  $('tog-real').classList.toggle('active', chartMode === 'real');
+  for (const button of document.querySelectorAll('[data-scale]')) {
+    const active = button.dataset.scale === axisScale;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
 }
 
 // ============================================================
@@ -519,46 +524,40 @@ function renderAutoDashboard(auto, p) {
     $('a-age').textContent = '無法達成';
     $('a-age').style.color = 'var(--danger)';
     $('a-years').textContent = '調整參數再試';
-    $('a-fire').textContent = $('a-fire-real').textContent = '—';
+    $('a-fire').textContent = '—';
     $('a-exp').textContent = $('a-exp-sub').textContent = '—';
     $('a-end').textContent = '—';
     return;
   }
   const ageStr = ageDisplay(auto.age);
-  const realFire = auto.portfolioAtRetire / Math.pow(1 + p.inf, auto.age - p.age);
-  const expAtRetire = p.monthExp * Math.pow(1 + p.inf, auto.age - p.age);
   $('a-age').textContent = ageStr;
   $('a-age').style.color = '';
   $('a-years').textContent = auto.age === p.age ? '現在即可退休' : '距今 ' + (auto.age - p.age) + ' 年';
-  $('a-fire').textContent = fmt(auto.portfolioAtRetire) + ' 萬';
-  $('a-fire-real').textContent = '今日幣值 ≈ ' + fmt(realFire) + ' 萬';
-  $('a-exp').textContent = fmt(expAtRetire) + ' 萬';
-  $('a-exp-sub').textContent = '今日 ' + p.monthExp + ' 萬 × ' + (auto.age - p.age) + '年通膨';
-  $('a-end').textContent = fmt(Math.max(0, auto.endVal)) + ' 萬';
+  $('a-fire').textContent = fmt(todayValue(auto.portfolioAtRetire, auto.age, p)) + ' 萬';
+  $('a-exp').textContent = fmt(p.monthExp) + ' 萬';
+  $('a-exp-sub').textContent = '今日幣值／月';
+  $('a-end').textContent = fmt(Math.max(0, todayValue(auto.endVal, p.lifeExp, p))) + ' 萬';
 }
 
 function renderManualDashboard(manual, manualAge, p) {
-  const realFire = manual.portfolioAtRetire / Math.pow(1 + p.inf, manualAge - p.age);
-  const expAtRetire = p.monthExp * Math.pow(1 + p.inf, manualAge - p.age);
+  const endToday = todayValue(manual.endVal, p.lifeExp, p);
   $('m-age').textContent = ageDisplay(manualAge);
   $('m-years').textContent = manualAge === p.age ? '現在退休' : '距今 ' + (manualAge - p.age) + ' 年';
-  $('m-fire').textContent = fmt(manual.portfolioAtRetire) + ' 萬';
-  $('m-fire-real').textContent = '今日幣值 ≈ ' + fmt(realFire) + ' 萬';
-  $('m-exp').textContent = fmt(expAtRetire) + ' 萬';
-  $('m-exp-sub').textContent = '今日 ' + p.monthExp + ' 萬 × ' + (manualAge - p.age) + '年通膨';
+  $('m-fire').textContent = fmt(todayValue(manual.portfolioAtRetire, manualAge, p)) + ' 萬';
+  $('m-exp').textContent = fmt(p.monthExp) + ' 萬';
+  $('m-exp-sub').textContent = '今日幣值／月';
 
   const cell = $('m-end-cell');
-  const endVal = manual.endVal;
-  if (endVal < -0.5) {
-    $('m-end').textContent = fmt(endVal) + ' 萬';
+  if (manual.endVal < -0.5) {
+    $('m-end').textContent = fmt(endToday) + ' 萬';
     $('m-end-sub').textContent = manual.deplAge ? ageDisplay(manual.deplAge) + ' 資產耗盡' : '';
     cell.classList.add('warn'); cell.classList.remove('success');
-  } else if (endVal > 100) {
-    $('m-end').textContent = fmt(endVal) + ' 萬';
-    $('m-end-sub').textContent = '有剩餘安全邊際';
+  } else if (endToday > 0.5) {
+    $('m-end').textContent = fmt(endToday) + ' 萬';
+    $('m-end-sub').textContent = endToday > 100 ? '有剩餘安全邊際' : '仍有剩餘';
     cell.classList.add('success'); cell.classList.remove('warn');
   } else {
-    $('m-end').textContent = fmt(Math.max(0, endVal)) + ' 萬';
+    $('m-end').textContent = fmt(Math.max(0, endToday)) + ' 萬';
     $('m-end-sub').textContent = '剛好歸零';
     cell.classList.remove('warn', 'success');
   }
@@ -571,8 +570,9 @@ function renderCompareStrip(auto, manual, manualAge, p) {
     return;
   }
   const yearDiff = manualAge - auto.age;
-  const portfolioDiff = manual.portfolioAtRetire - auto.portfolioAtRetire;
-  const endDiff = manual.endVal - auto.endVal;
+  const portfolioDiff = todayValue(manual.portfolioAtRetire, manualAge, p)
+    - todayValue(auto.portfolioAtRetire, auto.age, p);
+  const endDiff = todayValue(manual.endVal - auto.endVal, p.lifeExp, p);
 
   let yearTag, yearLabel;
   if (yearDiff > 0) { yearTag = 'delta-good'; yearLabel = '晚 ' + yearDiff + ' 年退休'; }
@@ -617,21 +617,22 @@ function renderChart(auto, manual, manualAge, p) {
   for (let y = p.age; y <= p.lifeExp; y++) labels.push(y);
 
   function getYearly(traj) {
-    const real = chartMode === 'real' ? trajectoryToReal(traj, p.age, p.inf) : traj;
-    return trajectoryToYearly(real, p.age, p.lifeExp);
+    const today = trajectoryToReal(traj, p.age, p.inf);
+    return trajectoryToYearly(today, p.age, p.lifeExp)
+      .map(value => axisScale === 'log' && value <= 0 ? null : value);
   }
 
-  const manualData = getYearly(manual.trajectory).map(v => Math.round(v));
+  const manualData = getYearly(manual.trajectory);
   const datasets = [];
 
   if (auto && showAuto) {
-    const autoData = getYearly(auto.trajectory).map(v => Math.round(v));
+    const autoData = getYearly(auto.trajectory);
     datasets.push({
       label: '自動 (' + ageDisplay(auto.age) + ' 退休)',
       data: autoData,
       borderColor: '#2d5a27',
       backgroundColor: 'rgba(45,90,39,.10)',
-      fill: true, tension: .3, pointRadius: 0, borderWidth: 2.5
+      fill: axisScale === 'linear', tension: axisScale === 'log' ? 0 : .3, pointRadius: 0, borderWidth: 2.5
     });
   }
   if (showManual) {
@@ -640,7 +641,7 @@ function renderChart(auto, manual, manualAge, p) {
       data: manualData,
       borderColor: '#2a6496',
       backgroundColor: 'rgba(42,100,150,.10)',
-      fill: true, tension: .3, pointRadius: 0, borderWidth: 2.5, borderDash: [6, 4]
+      fill: axisScale === 'linear', tension: axisScale === 'log' ? 0 : .3, pointRadius: 0, borderWidth: 2.5, borderDash: [6, 4]
     });
   }
 
@@ -648,7 +649,8 @@ function renderChart(auto, manual, manualAge, p) {
     ${auto && showAuto ? `<span><i style="width:11px;height:11px;border-radius:2px;background:#2d5a27"></i>自動（${ageDisplay(auto.age)}）</span>` : ''}
     ${showManual ? `<span><i style="width:14px;height:2px;background:#2a6496"></i>自訂（${ageDisplay(manualAge)}）</span>` : ''}
     ${!showAuto && !showManual ? `<span style="color:var(--text3)">兩條曲線都已隱藏</span>` : ''}
-    <span style="color:var(--text3);margin-left:auto">${chartMode === 'real' ? '單位：萬元（今日購買力）' : '單位：萬元（名目）'}</span>
+    <span style="color:var(--text3);margin-left:auto">單位：萬元（今日幣值）</span>
+    ${axisScale === 'log' ? '<span style="color:var(--text3)">對數軸不顯示零或負值；資產耗盡後曲線中斷</span>' : ''}
   `;
 
   // Vertical line annotations for retirement points
@@ -681,16 +683,25 @@ function renderChart(auto, manual, manualAge, p) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => ctx.dataset.label + ': ' + fmt(ctx.parsed.y) + ' 萬'
+            label: ctx => ctx.dataset.label + ': ' + fmtChart(ctx.parsed.y) + ' 萬（今日幣值）'
           }
         }
       },
       scales: {
         x: { title: { display: true, text: '年齡' }, ticks: { autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } },
         y: {
-          title: { display: true, text: chartMode === 'real' ? '萬元（今日幣值）' : '萬元（名目）' },
-          ticks: { callback: v => v >= 10000 ? (v / 10000).toFixed(1) + ' 億' : v.toLocaleString() },
-          suggestedMin: 0, grid: { color: 'rgba(0,0,0,.04)' }
+          type: axisScale === 'log' ? 'logarithmic' : 'linear',
+          title: { display: true, text: '萬元（今日幣值）' },
+          ticks: { callback: v => {
+            if (axisScale === 'log') {
+              if (v <= 0) return '';
+              const unit = v / Math.pow(10, Math.floor(Math.log10(v)));
+              if (![1, 2, 5].some(n => Math.abs(unit - n) < 1e-8)) return '';
+            }
+            return v >= 10000 ? (v / 10000).toFixed(1) + ' 億' : fmtChart(v);
+          } },
+          ...(axisScale === 'linear' ? { suggestedMin: 0 } : {}),
+          grid: { color: 'rgba(0,0,0,.04)' }
         }
       }
     },
@@ -706,7 +717,7 @@ function renderTimeline(auto, manual, manualAge, p) {
     tl += `<div class="tl-item">房貸月付 ${fmt(annualMort / 12 * 10000)} 元，${mortEndAge} 歲還清（共 ${p.mortYears} 年）</div>`;
   }
   if (auto) {
-    tl += `<div class="tl-item tl-highlight">${ageDisplay(auto.age)}：自動計算最早可退休（資產 ${fmt(auto.portfolioAtRetire)} 萬）</div>`;
+    tl += `<div class="tl-item tl-highlight">${ageDisplay(auto.age)}：自動計算最早可退休（資產 ${fmt(todayValue(auto.portfolioAtRetire, auto.age, p))} 萬）</div>`;
     if (auto.age < mortEndAge && annualMort > 0) {
       const yearsLeft = (mortEndAge - auto.age).toFixed(2);
       tl += `<div class="tl-item">退休後仍需繳房貸 ${yearsLeft} 年</div>`;
@@ -714,11 +725,11 @@ function renderTimeline(auto, manual, manualAge, p) {
   } else {
     tl += `<div class="tl-item tl-danger">自動計算：無法在 ${lifeExp} 歲前退休</div>`;
   }
-  tl += `<div class="tl-item tl-blue">${ageDisplay(manualAge)}：自訂退休（資產 ${fmt(manual.portfolioAtRetire)} 萬）</div>`;
+  tl += `<div class="tl-item tl-blue">${ageDisplay(manualAge)}：自訂退休（資產 ${fmt(todayValue(manual.portfolioAtRetire, manualAge, p))} 萬）</div>`;
   if (manual.endVal < -0.5 && manual.deplAge) {
     tl += `<div class="tl-item tl-danger">自訂模式：${ageDisplay(manual.deplAge)} 資產耗盡（早於壽命 ${(lifeExp - manual.deplAge).toFixed(2)} 年）</div>`;
-  } else if (manual.endVal > 100) {
-    tl += `<div class="tl-item">${lifeExp} 歲：自訂模式剩餘 ${fmt(manual.endVal)} 萬</div>`;
+  } else if (todayValue(manual.endVal, lifeExp, p) > 0.5) {
+    tl += `<div class="tl-item">${lifeExp} 歲：自訂模式剩餘 ${fmt(todayValue(manual.endVal, lifeExp, p))} 萬</div>`;
   } else {
     tl += `<div class="tl-item">${lifeExp} 歲：自訂模式資產歸零</div>`;
   }
@@ -728,7 +739,6 @@ function renderTimeline(auto, manual, manualAge, p) {
 function renderComments(auto, manual, manualAge, p) {
   const realReturn = ((1 + p.ret) / (1 + p.inf) - 1) * 100;
   const mortMonthly = Math.round(p.annualMort / 12 * 10000);
-  const monthExpReal = p.monthExp;
 
   let cm = '';
   cm += `<div class="comment-card info"><span class="cc-tag tag-tip">雙軌對照</span>
@@ -744,8 +754,8 @@ function renderComments(auto, manual, manualAge, p) {
     <div class="cc-body">儲蓄率已反映「收入扣除生活開銷後的結餘」。工作期：資產 × 報酬 + 薪資 × 儲蓄率 − 房貸。退休後才以設定月支出（通膨調整後）提領，房貸若未繳清則持續扣。</div></div>`;
 
   cm += `<div class="comment-card info"><span class="cc-tag tag-assumption">模型假設</span>
-    <div class="cc-title">名目 vs 實質</div>
-    <div class="cc-body">名目報酬 ${(p.ret * 100).toFixed(2)}% − 通膨 ${(p.inf * 100).toFixed(2)}% ≈ 實質報酬 ${realReturn.toFixed(2)}%。圖表上方切換可在「名目」（未來幣值）與「實質」（今日購買力）間切換，幫助理解通膨稀釋效果。</div></div>`;
+    <div class="cc-title">今日幣值</div>
+    <div class="cc-body">圖表、摘要與時間軸的金額都折算為今日購買力。依投資報酬率 ${(p.ret * 100).toFixed(2)}% 和通膨率 ${(p.inf * 100).toFixed(2)}% 計算，扣除通膨後的年化報酬約 ${realReturn.toFixed(2)}%。</div></div>`;
 
   if (p.annualMort > 0) {
     const mortRatio = Math.round(p.annualMort / (p.sal * p.sr) * 100);
@@ -756,10 +766,9 @@ function renderComments(auto, manual, manualAge, p) {
   }
 
   if (auto) {
-    const autoExpMonth = p.monthExp * Math.pow(1 + p.inf, auto.age - p.age);
     cm += `<div class="comment-card"><span class="cc-tag tag-tip">分析</span>
-      <div class="cc-title">通膨 ${auto.age - p.age} 年的威力</div>
-      <div class="cc-body">今日月支出 ${monthExpReal} 萬，退休時等值已膨脹至 <strong>${fmt(autoExpMonth)}</strong> 萬。退休總提領（30 年期計）約 <strong>${fmt(autoExpMonth * 12 * 30 * 1.5)}</strong> 萬名目幣值。通膨是退休規劃最大的隱形敵人。</div></div>`;
+      <div class="cc-title">退休支出與通膨</div>
+      <div class="cc-body">退休後每月支出設定為今日購買力 ${fmt(p.monthExp)} 萬。模型會依通膨逐季調整提領額，顯示時再折回今日幣值。</div></div>`;
   }
 
   if (manual.endVal < -0.5 && manual.deplAge) {
@@ -767,10 +776,10 @@ function renderComments(auto, manual, manualAge, p) {
     cm += `<div class="comment-card danger"><span class="cc-tag tag-risk">自訂模式警告</span>
       <div class="cc-title">${ageDisplay(manualAge)} 退休將提早耗盡</div>
       <div class="cc-body">資產將於 ${ageDisplay(manual.deplAge)} 耗盡，比預期壽命早 ${(p.lifeExp - manual.deplAge).toFixed(2)} 年。${gap && +gap > 0 ? '建議至少延後 <strong>' + gap + ' 年</strong>至 ' + ageDisplay(auto.age) + ' 退休。' : '需大幅調整參數（提高儲蓄率、降低支出、延後退休）。'}</div></div>`;
-  } else if (manual.endVal > 1000 && auto && manualAge > auto.age) {
+  } else if (todayValue(manual.endVal, p.lifeExp, p) > 1000 && auto && manualAge > auto.age) {
     cm += `<div class="comment-card"><span class="cc-tag tag-tip">分析</span>
       <div class="cc-title">自訂模式有大量剩餘</div>
-      <div class="cc-body">${ageDisplay(manualAge)} 退休至壽終仍剩 ${fmt(manual.endVal)} 萬，可作為遺產或大額醫療支出緩衝。若想提早，可拉動滑桿至 ${ageDisplay(auto.age)} 觀察。</div></div>`;
+      <div class="cc-body">${ageDisplay(manualAge)} 退休至壽終仍剩 ${fmt(todayValue(manual.endVal, p.lifeExp, p))} 萬（今日幣值），可作為遺產或大額醫療支出緩衝。若想提早，可拉動滑桿至 ${ageDisplay(auto.age)} 觀察。</div></div>`;
   }
 
   cm += `<div class="comment-card danger"><span class="cc-tag tag-risk">風險提醒</span>
@@ -797,7 +806,7 @@ Object.keys(DEFAULTS).forEach(id => {
 
 document.querySelectorAll('.toggle-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    chartMode = btn.dataset.mode;
+    axisScale = btn.dataset.scale;
     updateToggle();
     calc();
   });
