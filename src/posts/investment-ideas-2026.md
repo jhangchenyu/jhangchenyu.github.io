@@ -44,6 +44,16 @@ CPO 的光電整合與 SoIC 的高密度接合，可能讓對位、隱藏缺陷�
 
 追蹤 IonQ 的 [Tempo 與下一代系統](https://ionq.com/quantum-systems/compare)，以及 Quantinuum 的 [Helios](https://www.quantinuum.com/products-solutions/quantinuum-systems/helios) 與後續機器。重點不只是物理量子位元數，而是邏輯錯誤率、可執行電路深度、重複實驗結果，以及能否完成**有意義的邏輯量子位元實驗**。展示、模擬、誤差偵測與真正容錯運算要分開評估。
 
+### 2026-10-07 補記：IonQ Superion 256
+
+[IonQ 於 9 月公布](https://ionq.com/news/ionq-launches-superion-product-line-industry-leading-upgradeable-platform-designed-to-scale-manufacturable-fault-tolerant-quantum-computing)，Superion 256 的首批晶片已在 SkyWater 製作、原型機已捕獲離子，產品開始接受訂單，**預計**於 2027 年交付客戶；10K 系統仍在研發路線上。這裡的 256 與 10K 指物理量子位元，不能直接換算成可用的邏輯量子位元。IonQ 也[公布與佛羅里達國際大學的 Superion 256 合約](https://www.ionq.com/news/ionqs-superion-256-platform-selected-by-florida-international-university-for-flagship-deployment)，預計 2027 年底安裝；簽約與完成交付要分開看。
+
+一份[公開轉述的 Mizuho 投資人會議摘要](https://uk.investing.com/news/stock-market-news/mizuho-reiterates-ionq-stock-rating-on-quantum-computing-growth-93CH-4895185)估計，Superion 256 可在 2027 年爬坡，單機平均售價可能達 **2,500–3,000 萬美元**；券商也看好雲端服務商、研究機構與主權客戶需求，維持 **Outperform** 與 **52 美元目標價**。這些是券商情境，並非 IonQ 已確認的售價、出貨量、營收或股價結果。
+
+[SkyWater 收購已完成](https://ionq.com/news/ionq-completes-acquisition-of-skywater-technology)。IonQ 公告稱，與 SkyWater 合作後，**晶片設計週期由九個月縮至兩個月**；會議摘要所稱「製造週期八個月縮至約兩至三個月」與「晶圓代工營收年增約 100%」是不同口徑及預估，不能視為已實現的財報數字。後續要核對實際交付、單機收入、雲端使用量、SkyWater 對外代工收入，以及從 256 物理量子位元走向可靠邏輯量子位元的實驗結果。
+
+摘要把美國後量子密碼（PQC）轉型也列為需求催化劑；但 [NIST 的 PQC 標準已於 2024 年發布](https://csrc.nist.gov/News/2024/postquantum-cryptography-fips-approved)，美國政府的[轉型目標是 2035 年](https://www.nist.gov/cryptography/nist-role-and-activities-relative-post-quantum-cryptography-white-house-memo)。**PQC 軟體與資安採購，不等於量子電腦硬體訂單**，仍須看 IonQ 實際取得的合約。
+
 ## 8. 物理 AI 與機器人
 
 留意機器人能否從示範影片走進可重複的工作流程。[國際機器人聯盟](https://ifr.org/news/top-5-global-robotics-trends-2026)也把 AI 與人形機器人列為產業觀察方向。我的檢驗點是任務成功率、每小時可用時間、安全性、維護成本，以及付費部署規模；原型機數量不能直接當成商業化進度。
