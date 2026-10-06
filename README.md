@@ -7,9 +7,19 @@
 - 網站：https://jhangchenyu.github.io/
 - 發布狀態：https://github.com/jhangchenyu/jhangchenyu.github.io/actions
 
-## 修改首頁後怎麼更新
+## 修改網站後，一次發布全部更新
 
-修改 `src/index.njk` 後按 Ctrl+S，雙擊 **發布首頁.cmd**，確認列出的修改後按 Enter。等本次 GitHub Actions 部署成功，再重新整理線上首頁。這個按鈕只提交首頁，不會把其他尚未提交的檔案一起提交；推送時會包含先前已提交但尚未推送的版本。
+修改檔案後按 **Ctrl+S**，回到 `C:\AI\personal-website`，雙擊 **發布網站.cmd**。也可以在網站資料夾的終端機執行：
+
+```powershell
+npm run publish:site
+```
+
+這個入口會建置與檢查網站，成功後才提交並推送目前所有網站來源修改，包括首頁、社群連結、研究與日誌頁、已發布文章、個人小工具、樣式及設定。不需要再手動執行 `git add`、`git commit`、`git push`；執行前請先存檔，並確認這些修改都準備好公開。
+
+若失敗，程式會停止並保留修改；網路或登入造成推送失敗時，處理問題後再執行同一入口即可重試。推送成功後，仍要到上方 **GitHub Actions** 確認本次部署成功，再回網站按 **Ctrl+F5**。發布程式不會自動等待部署完成。
+
+`drafts/` 的未完成草稿不會因此公開。新草稿首次發布仍使用 **發布文章.cmd**；之後修改正式文章，就能和其他網站內容一起用 **發布網站.cmd** 更新。原本的 **發布首頁.cmd** 與 **發布文章.cmd** 仍可用於個別發布。
 
 首頁最上方的 `description:` 是網頁摘要，不是畫面上的自我介紹。要修改訪客看到的文字，請用 Ctrl+F 找到目前顯示的句子，例如「我是 Jim」或「從量子實驗」，修改該段文字後發布。
 
@@ -18,9 +28,9 @@
 1. 雙擊 **新增文章.cmd**，輸入標題、選分類。記事本會開啟新草稿；填好摘要、標籤及文章內容後存檔。
 2. 雙擊 **發布文章.cmd**，選擇文章並確認。工具會檢查內容與連結、提交版本並推送；GitHub Actions 完成後，文章就會出現在網站上。
 
-草稿在 `drafts/`，只留在本機，不會推送或出現在網站。公開後的正式文章在 `src/posts/`；修改這裡的 `.md`，再執行「發布文章.cmd」即可更新。`drafts/` 裡已發布的副本會標記完成，之後請編輯正式文章。
+草稿在 `drafts/`，只留在本機，不會推送或出現在網站。公開後的正式文章在 `src/posts/`；修改這裡的 `.md`，再執行「發布網站.cmd」即可更新。`drafts/` 裡已發布的副本會標記完成，之後請編輯正式文章。
 
-推送若因網路失敗，可再執行「發布文章.cmd」選擇重試推送，或執行 `node tools/write.cjs publish --push`。推送完成代表已送出原始碼；請以上方 Actions 的綠色成功狀態確認部署完成。
+推送若因網路失敗，處理問題後可再執行「發布網站.cmd」重試；原文章工具也保留重試推送功能。推送完成代表已送出原始碼；請以上方 Actions 的綠色成功狀態確認部署完成。
 
 ## 文章格式
 
@@ -62,7 +72,7 @@ status: draft
 ![圖片的文字說明](/assets/articles/my-first-note/figure.jpg)
 ```
 
-發布工具會一起複製與推送這篇文章的圖片。更新已公開的圖片時，請編輯 `src/assets/articles/文章slug/`，並修改該篇文章後再發布。勿使用電腦磁碟路徑作為圖片網址。
+首次發布工具會一起複製與推送這篇文章的圖片。更新已公開的圖片時，請編輯 `src/assets/articles/文章slug/`，再執行「發布網站.cmd」；只替換圖片也能發布。勿使用電腦磁碟路徑作為圖片網址。
 
 ## 預覽與檔案位置
 
@@ -76,9 +86,11 @@ status: draft
 | 分類名稱、描述及排序 | `src/_data/topics.json` |
 | 推薦網站 | `src/_data/resources.json` |
 | 文章 | `src/posts/*.md` |
+| 個人小工具列表 | `src/tools.njk` |
+| 退休計畫模擬器 | `src/tools/retirement/index.html` |
 | 樣式、動畫、搜尋 | `src/assets/` |
 
-新增推薦網站請編輯 `resources.json`，填入名稱 `name`、網址 `url`、顯示網域 `host`、分組 `group`、網站類型 `type` 與簡介 `description`。沿用既有分組時只需改這個檔案；新增分組還要在 `src/links.njk` 的 `resourceGroups` 加入同名分組。首頁可用「發布首頁.cmd」；其他網站設定或版面修改，需要提交相關檔案並 `git push`，不會由文章發布工具代為提交。完整指令與範例見中文教學。
+新增推薦網站請編輯 `resources.json`，填入名稱 `name`、網址 `url`、顯示網域 `host`、分組 `group`、網站類型 `type` 與簡介 `description`。沿用既有分組時只需改這個檔案；新增分組還要在 `src/links.njk` 的 `resourceGroups` 加入同名分組。以上內容存檔後，統一用「發布網站.cmd」更新。完整範例見中文教學。
 
 ## 換電腦或重新安裝
 
