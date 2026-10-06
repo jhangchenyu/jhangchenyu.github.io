@@ -1,0 +1,9 @@
+---
+layout: base.njk
+title: 個人日誌
+navSection: journal
+permalink: /journal/all/index.html
+---
+<div class="page-intro"><p class="eyebrow">PERSONAL JOURNAL</p><h1>個人日誌</h1><p class="lead">財務、旅遊與隨筆依日期由新到舊排列。選擇分類可單獨瀏覽。</p></div>
+<nav class="topic-tabs" aria-label="日誌文章分類"><a href="{{ '/journal/all/' | url }}" aria-current="page">所有文章</a>{% for item in topics %}{% if item.section == 'journal' %}<a href="{{ item.path | url }}">{{ item.name }}</a>{% endif %}{% endfor %}</nav>
+<section class="archive-section"><div class="archive-heading"><h2>所有日誌文章</h2><span>{{ (collections.articles | inSection('journal')).length }} 篇 · 由新到舊</span></div>{% set articleList = collections.articles | inSection('journal') %}{% include 'article-list.njk' %}</section>
