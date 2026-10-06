@@ -6,8 +6,6 @@
   "scripts": {
     "build": "node tools/validate-content.cjs && eleventy && node tools/check-site.cjs",
     "start": "eleventy --serve --port=4173",
-    "new": "node tools/write.cjs new",
-    "publish": "node tools/write.cjs publish",
     "publish:site": "node tools/publish-site.cjs"
   },
   "engines": { "node": ">=22" },

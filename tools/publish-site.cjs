@@ -8,8 +8,7 @@ const root = path.resolve(__dirname, '..');
 const scope = [
   'src', 'tools', 'templates', '.github', 'eleventy.config.cjs',
   'package.json', 'package-lock.json', '.gitignore', '.gitattributes',
-  'README.md', '文章更新教學.md', '新增文章.cmd', '發布文章.cmd',
-  '發布首頁.cmd', '發布網站.cmd', '開啟網站.cmd', '預覽網站.cmd'
+  'README.md', '文章更新教學.md', '發布網站.cmd', '預覽網站.cmd'
 ];
 
 function run(command, args, capture = false) {
