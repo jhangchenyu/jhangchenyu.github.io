@@ -2,7 +2,7 @@
 title: "矽光子與 CPO：光為什麼要靠近晶片"
 description: "2024 年整理的矽光子筆記：光比起電訊號的延遲、容量與損耗，以及 CPO 如何省掉 PCB 上的那一段。"
 date: "2024-07-30"
-category: packaging-sipi
+category: cpo
 slug: cpo-silicon-photonics
 tags: [矽光子, CPO, 光互連]
 status: published

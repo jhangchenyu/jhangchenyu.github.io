@@ -1,10 +1,11 @@
 [
   { "id": "quantum", "name": "量子計算", "section": "research", "path": "/research/quantum/", "english": "Quantum computing", "number": "01", "description": "整理量子硬體、容錯架構與量子演算法的閱讀筆記。", "keywords": ["量子硬體", "QEC", "容錯運算"] },
-  { "id": "packaging-sipi", "name": "先進封裝 SI/PI", "section": "research", "path": "/research/packaging-si-pi/", "english": "Advanced packaging · SI / PI", "number": "02", "description": "從訊號與供電的角度觀察先進封裝，整理玻璃基板、矽光子與電源網路等主題。", "keywords": ["先進封裝", "訊號完整性", "電源完整性"] },
-  { "id": "ai", "name": "AI", "section": "research", "path": "/research/ai/", "english": "Artificial intelligence", "number": "03", "description": "整理 AI 模型、工具、算力與應用發展的閱讀筆記。", "keywords": ["模型", "算力", "應用"] },
-  { "id": "defense", "name": "軍工", "section": "research", "path": "/research/defense/", "english": "Defense technology", "number": "04", "description": "從公開資料觀察國防科技、產業與供應鏈。", "keywords": ["國防科技", "產業", "公開資料"] },
-  { "id": "singularity", "name": "奇點研究", "section": "research", "path": "/research/singularity/", "english": "Technology & the future", "number": "05", "description": "跨領域追蹤技術突破、產業變化，以及仍待回答的問題。", "keywords": ["科技趨勢", "跨領域", "長期觀察"] },
-  { "id": "ai-livelihood", "name": "AI＋生計", "section": "research", "path": "/research/ai-livelihood/", "english": "AI & livelihoods", "number": "06", "description": "整理 AI 與工作、技能及生活選擇交會的觀察。", "keywords": ["AI", "工作", "技能"] },
+  { "id": "packaging-sipi", "name": "先進封裝 SI/PI", "section": "research", "path": "/research/packaging-si-pi/", "english": "Advanced packaging · SI / PI", "number": "02", "description": "從訊號與供電的角度觀察先進封裝，整理玻璃基板、電源網路等主題。", "keywords": ["先進封裝", "訊號完整性", "電源完整性"] },
+  { "id": "cpo", "name": "CPO", "section": "research", "path": "/research/cpo/", "english": "Co-packaged optics", "number": "03", "description": "共同封裝光學與矽光子如何讓光學更靠近運算晶片，整理架構、量測與產業進度。", "keywords": ["CPO", "矽光子", "光互連"] },
+  { "id": "ai", "name": "AI", "section": "research", "path": "/research/ai/", "english": "Artificial intelligence", "number": "04", "description": "整理 AI 模型、工具、算力與應用發展的閱讀筆記。", "keywords": ["模型", "算力", "應用"] },
+  { "id": "defense", "name": "軍工", "section": "research", "path": "/research/defense/", "english": "Defense technology", "number": "05", "description": "從公開資料觀察國防科技、產業與供應鏈。", "keywords": ["國防科技", "產業", "公開資料"] },
+  { "id": "singularity", "name": "奇點研究", "section": "research", "path": "/research/singularity/", "english": "Technology & the future", "number": "06", "description": "跨領域追蹤技術突破、產業變化，以及仍待回答的問題。", "keywords": ["科技趨勢", "跨領域", "長期觀察"] },
+  { "id": "biotech", "name": "生物科技", "section": "research", "path": "/research/biotech/", "english": "Biotech", "number": "07", "description": "追蹤生物科技、AI 製藥與材料模擬等跨領域技術進展。", "keywords": ["生物科技", "AI 製藥", "材料模擬"] },
   { "id": "work", "name": "工作", "section": "journal", "path": "/journal/work/", "english": "Work & practice", "number": "01", "description": "工作方法、工具使用與工程實作的心得。", "keywords": ["工程日常", "工作方法", "工具"] },
   { "id": "travel", "name": "旅遊", "section": "journal", "path": "/journal/travel/", "english": "Places & journeys", "number": "02", "description": "記下走過的地方、途中遇見的風景與細節。", "keywords": ["旅行", "城市", "途中"] },
   { "id": "notes", "name": "亂寫", "section": "journal", "path": "/journal/notes/", "english": "Notes & other things", "number": "03", "description": "還沒歸類的想法、閱讀隨筆，以及生活裡想留下的片段。", "keywords": ["隨筆", "閱讀", "生活"] }
