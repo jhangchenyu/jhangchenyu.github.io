@@ -1,53 +1,422 @@
 ---
-title: "先進封裝研究關鍵字地圖：從鍵合、載板到光互連"
-description: "整理 319 個研究詞條的檢索架構，分清封裝主線、測試、光通訊及鄰近領域，也說明索引紀錄的證據層級。"
+title: "研究關鍵字索引：319 個詞條"
+description: "依原始索引的 30 個分類，完整列出 319 個標準關鍵字。"
 date: "2026-10-06"
-category: packaging-sipi
+category: singularity
 slug: advanced-packaging-research-keywords-map
 cover: /assets/images/research-keyword-map.svg
-coverAlt: "以先進封裝為中心，連接測試、光互連、供電與跨領域主題的研究關鍵字地圖"
-tags: [研究方法, 先進封裝, SI/PI, TGV, 光互連]
+coverAlt: "封裝、光通訊、測試、運算、供電和前沿科技的研究關鍵字分類示意圖"
+tags: [研究關鍵字, 技術索引]
 status: published
-sourceNote: "依據本機《研究關鍵字索引_20261006.xlsx》整理。工作簿是檢索索引，收錄 319 個詞條、30 類與 44 份本機來源；本文不公開其中的本機路徑或原文摘錄，也不把被提及的技術視為已驗證的商用進度。"
+tocOpen: false
+sourceNote: "資料來源：《研究關鍵字索引_20261006.xlsx》（2026-10-06）；319 個標準關鍵字、30 個分類。"
 ---
 
-研究先進封裝時，單看一個名詞很容易漏掉它的上下游。例如 Hybrid Bonding 會連到表面平坦化、清洗、對位、檢測；TGV 會連到玻璃材料、成孔、金屬化和可靠度。這份關鍵字索引的用途，是**替後續查證建立路線圖**，不是宣布 319 個題目都已研究完成。
+## 先進封裝與鍵合（20）
 
-## 先看索引怎麼讀
+- Hybrid Bonding
+- TCB
+- Microbump
+- W2W Bonding
+- D2W Bonding
+- SoIC
+- CMP
+- Cu Recess
+- Plasma Activation
+- Anneal
+- Overlay
+- Carrier Wafer
+- CMP Conditioner
+- TSV
+- Temporary Bonding / Debonding
+- Bond Pitch
+- CMP Pad
+- CMP Slurry
+- Post-CMP Clean
+- C4
 
-工作簿把每一列拆成「分類、標準關鍵字、中文意義、常見寫法與延伸檢索詞、紀錄層級、來源編號」。同一技術的縮寫、英文全名和中文名稱因此可以一起搜尋，但不同技術不能因名稱接近就合併。
+## 面板封裝與載板（13）
 
-| 紀錄層級 | 詞條數 | 應如何理解 |
-| --- | ---: | --- |
-| 專題研究 | 28 | 已有以該題為核心的本機報告，仍需核對資料日期與原始來源。 |
-| 章節或表格 | 230 | 在本機材料中有具體段落或表格，未必完成整題研究。 |
-| 紀錄提及 | 61 | 只被列名或簡述，應視為待追蹤線索。 |
+- CoPoS
+- FOPLP
+- EMIB
+- RDL
+- CoWoS
+- CoWoS-S
+- CoWoS-L
+- CoWoS-R
+- FOWLP
+- Chiplet
+- Silicon Interposer
+- RDL Interposer
+- LSI
 
-這些數量是 **2026-10-06 版本**的索引快照。來源編號指向本機的 44 份檔案；它不是對外可直接查核的公開引文，也不代表客戶認證、出貨或量產。
+## PCB與載板材料（9）
 
-## 封裝主線：從接合界面走到載板
+- PCB
+- HDI
+- SLP
+- FPC
+- ABF Substrate
+- BT Substrate
+- CCL
+- Prepreg
+- HVLP Copper Foil
 
-索引中最貼近先進封裝核心的八類共有 **94 個詞條**：先進封裝與鍵合、面板封裝與載板、PCB 與載板材料、PCB 製程與設備、PCB 檢測與自動化、玻璃基板與 TGV、薄膜與蝕刻製程，以及封裝組裝與材料。
+## PCB製程與設備（15）
 
-我會把這些詞串成四個問題來查：
+- LDI
+- DES
+- mSAP
+- Vacuum Press
+- Mechanical Drilling
+- Laser Drilling
+- Desmear
+- Electroless Copper
+- ECD
+- PTH
+- VCP
+- Solder Mask
+- OSP
+- ENIG
+- ENEPIG
 
-1. **怎麼接合？** 先分開 Hybrid Bonding、TCB、Microbump，再看 W2W、D2W 等堆疊方式。接合機制和組裝層級是兩個維度，不能混用。
-2. **界面怎麼準備？** 追 CMP、Cu Recess、清洗、Plasma Activation、Overlay 和 Anneal，逐項找製程窗口與失效模式。
-3. **承載結構是什麼？** CoWoS、SoIC、RDL、Interposer、ABF、玻璃核心載板與 TGV 指向不同封裝層次；要先畫出堆疊剖面再比較。
-4. **如何量產與檢測？** 面板化、雷射鑽孔、金屬化、翹曲、微裂紋與 AOI／AXI 等項目，需對照製程良率與可靠度證據。
+## PCB檢測與自動化（6）
 
-若想先從兩條具體主線讀起，可看站內的[玻璃基板與 TGV 筆記](/articles/glass-core-substrate/)和[IPD／嵌入式電容與 PDN 筆記](/articles/ipd-embedded-cap-pdn/)。
+- AOI
+- AVI
+- AXI
+- Flying Probe
+- AMHS
+- Die Sorting
 
-## 把測試、光互連與供電接回來
+## 玻璃基板與TGV（16）
 
-索引還有 **53 個測試與量測詞條**，涵蓋半導體測試、測試介面與接觸、搬運與熱控、檢測量測與失效分析，以及測試設計與軟體。這些詞提醒我：封裝流程的主張，最後仍要落到可觀測的缺陷、電性、熱與可靠度結果。
+- TGV
+- Glass Core Substrate
+- Glass Interposer
+- Glass Carrier
+- LIDE
+- HiPIMS
+- Seed Layer
+- Glass Thinning
+- Microcrack
+- Warpage
+- Aspect Ratio
+- FC-BGA
+- Low-CTE Glass Cloth
+- Adhesion Promoter
+- TGV Copper Filling
+- TGV Cu Paste
 
-**光通訊六類共 77 個詞條**，從 CPO、PIC、光源、調變器、光纖耦合，一路到 BER、插入損失與 OSA。它們和封裝交會於 Optical Engine 的放置、光纖對準、熱管理及電光介面；站內另有[矽光子元件入門](/articles/silicon-photonics-passive-devices/)與[收發鏈整理](/articles/silicon-photonics-transceiver/)。
+## 薄膜與蝕刻製程（8）
 
-再往系統端，AI 運算、記憶體、電力與電源轉換、磁性材料、高速互連及散熱六類共有 **62 個詞條**。這些不是封裝製程本身，卻能幫助釐清封裝為何承受頻寬、供電和散熱需求。最後的 **33 個詞條**分散在機器人、工業軟體、能源、國防與太空等領域，應保留為跨領域線索，不能硬說成封裝供應鏈。
+- PVD
+- Sputtering
+- Dry Etching
+- Plasma Etching
+- Wet Etching
+- Barrier Layer
+- Descum
+- Passivation
 
-## 下一步怎麼用這張地圖
+## 封裝組裝與材料（7）
 
-選題時，我會先寫下要驗證的問題，再選標準詞和延伸詞搜尋。例如研究玻璃核心載板，不只搜尋 `TGV`，還要分開查成孔、種子層、翹曲、微裂紋與測試。每次看到公司公告或研究展示，記下**來源日期、對象、驗證階段與尚未證實之處**；樣品、能力展示、客戶驗證與量產收入不能互相代替。
+- Die Attach / Die Bonding
+- Underfill
+- Molding
+- AlN Ceramic
+- ABF Film
+- Cu Pillar
+- Trim / Form
 
-這份索引最有價值的地方，是讓名詞之間的關係可追蹤。若有新證據，應先更新原工作簿對應詞條與來源，再修訂這篇文章的時間戳記和數量。
+## 半導體測試（12）
+
+- ATE
+- CP / Wafer Sort
+- FT
+- SLT
+- KGD
+- Burn-in
+- WLBI
+- Package Burn-in
+- High-Power Burn-in
+- SiC / GaN Reliability
+- Memory ATE
+- SoC ATE
+
+## 測試介面與接觸（15）
+
+- Test Socket
+- Burn-in Socket
+- Probe Card
+- MEMS Probe Card
+- Vertical Probe Card
+- Fine-Pitch Probe
+- Spring Probe / Pogo Pin
+- Elastomer Socket
+- Load Board
+- DIB
+- BIB
+- SLT Board
+- WaferPak
+- Contact Force / Contact Resistance
+- Socket Life
+
+## 搬運與測試熱控（6）
+
+- Wafer Prober
+- Probe Station
+- Handler
+- ATC
+- Thermal Unit
+- HBM Cube Prober
+
+## 檢測量測與失效分析（15）
+
+- Metrology
+- AFM
+- X-ray Inspection / CT
+- C-SAM / SAM
+- Scatterometry
+- Surface Roughness / Planarity
+- Bond Void
+- Delamination
+- FA
+- RA
+- MA
+- SEM
+- TEM
+- FIB
+- Sample Preparation
+
+## 測試設計與軟體（5）
+
+- DFT
+- ATPG
+- BIST
+- Scan Compression
+- Test Data Analytics
+
+## 光通訊／架構與電子（22）
+
+- CPO
+- Silicon Photonics
+- PIC
+- Optical Engine
+- Optical I/O
+- LPO
+- NPO / OBO
+- OCS
+- DSP
+- SerDes
+- TIA
+- CDR
+- PAM4
+- DWDM
+- Fast & Narrow / Wide & Slow
+- COUPE
+- Optical Transceiver
+- 800G Optics
+- 1.6T Optics
+- EIC
+- TOSA
+- ROSA
+
+## 光通訊／光源與主動元件（10）
+
+- InP
+- CW Laser
+- DFB Laser
+- EML
+- ELS
+- ELSFP
+- Pump Laser
+- Photodiode
+- Quantum Dot Laser
+- VCSEL
+
+## 光通訊／基板與製程（12）
+
+- InP Substrate
+- InP Epitaxy
+- VGF
+- LEC
+- MOCVD
+- MBE
+- ICP / RIE
+- PECVD
+- ALD
+- Laser Facet Coating
+- Grating / Ridge
+- PDK
+
+## 光通訊／光纖連接與耦合（12）
+
+- FAU
+- Fiber Attach
+- GlassBridge
+- Passive Alignment
+- Optical Isolator
+- Faraday Rotator
+- Active Alignment
+- Edge Coupling
+- Grating Coupling
+- MPO Connector
+- MT Ferrule
+- CPO Socket
+
+## 光通訊／材料與調變器（17）
+
+- TFLN
+- TFLT
+- BTO
+- EO Polymer
+- SiN
+- GaAs
+- III-V-on-Si
+- LNOI
+- LTOI
+- MZM
+- MRM
+- EAM
+- Pockels Effect
+- Free Carrier Plasma Dispersion
+- QCSE
+- LN-on-SOI / SiN
+- Optical Waveguide
+
+## 光通訊／測試與可靠度（4）
+
+- BER
+- BERT
+- Insertion Loss
+- OSA
+
+## AI運算與架構（13）
+
+- Agentic AI
+- Agent Loop
+- Prefill
+- Decode
+- KV Cache
+- Prefix Caching
+- Qualcomm AI250
+- HBC
+- Near-memory Computing
+- Wafer-scale Engine
+- Cerebras CS-3
+- On-chip Mesh
+- MemoryX / SwarmX
+
+## 記憶體與儲存（10）
+
+- HBM
+- DDR / LPDDR
+- On-chip SRAM
+- VHM
+- S-SiCap
+- IoTRAM
+- NAND Flash
+- Enterprise SSD
+- XL-FLASH
+- BiCS NAND
+
+## 電力與電源轉換（17）
+
+- 800V HVDC
+- SST
+- Power Rack
+- Power Shelf
+- PSU
+- BBU
+- CBU
+- Busbar
+- IBC
+- VRM / POL
+- DrMOS / SPS
+- TLVR
+- PFC
+- LLC Resonant Converter
+- SiC Power Semiconductor
+- GaN Power Semiconductor
+- RF Choke
+
+## 磁性材料與被動元件（6）
+
+- MnZn Ferrite
+- NiZn Ferrite
+- Metal Powder Core
+- Amorphous Magnetic Material
+- Nanocrystalline Magnetic Material
+- Solid Polymer Capacitor
+
+## 高速互連與網路（12）
+
+- PCIe 6.0
+- RoCE
+- CXL
+- Open Rack v3
+- PHY
+- Equalizer
+- Redriver
+- Retimer
+- Gearbox
+- AEC DSP
+- Ethernet Switch ASIC
+- AI Ethernet
+
+## 散熱與機櫃整合（4）
+
+- Direct Liquid Cooling
+- JetCool SmartPlate
+- CDU
+- Quick Disconnect
+
+## 機器人與前沿運算（11）
+
+- Humanoid Robotics
+- Robotic Actuator
+- Precision Reducer
+- Quantum Computing
+- Trapped-ion Quantum Computing
+- Superconducting Quantum Processor
+- Planetary Roller Screw
+- Frameless Torque Motor
+- Force / Tactile Sensor
+- Machine Vision
+- LiDAR
+
+## 工業軟體與模擬（3）
+
+- Digital Twin
+- Sim-to-real
+- Enterprise Ontology
+
+## 能源與關鍵材料（6）
+
+- Small Modular Reactor
+- HALEU
+- Rare-earth Separation
+- NdFeB Magnet
+- Gas Turbine
+- Power Transformer
+
+## 自主系統與國防技術（6）
+
+- Drone Swarm
+- Uncrewed Underwater Vehicle
+- GPS-denied Navigation
+- Sensor Fusion
+- Edge AI
+- Secure / Anti-jam Datalink
+
+## 太空與衛星技術（7）
+
+- LEO Constellation
+- Optical Inter-satellite Link
+- Radiation-hardened Compute / PMIC
+- Space Solar Power
+- Reaction Wheel
+- Star Tracker
+- Orbital Manufacturing

@@ -33,10 +33,7 @@ for (const file of files.filter(file => file.endsWith('.html'))) {
     checked++;
   }
 }
-const approvedDocuments = new Set([
-  'assets/documents/silicon-photonics.pdf',
-  'assets/documents/silicon-photonics.pptx'
-]);
+const approvedDocuments = new Set();
 for (const file of files) {
   const relative = path.relative(root, file).replaceAll('\\', '/');
   if ((/\.(?:md|pdf|env|cjs)$/.test(file) && !approvedDocuments.has(relative)) ||

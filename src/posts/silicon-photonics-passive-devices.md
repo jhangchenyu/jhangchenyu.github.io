@@ -8,7 +8,7 @@ cover: /assets/images/silicon-waveguide.svg
 coverAlt: "光從光纖進入矽光子晶片，經波導及方向耦合器分成兩路的概念圖"
 tags: [矽光子, 光波導, 耦合器, 光纖介面]
 status: published
-sourceNote: "依據《Silicon Photonics》30 張投影片重新編寫；PDF 與 PPTX 是同一份內容的兩種格式。本文為原理整理，示意圖重新繪製，並非元件截面或量測結果。"
+sourceNote: "依據《Silicon Photonics》30 張投影片重新編寫。本文為原理整理，示意圖重新繪製，並非元件截面或量測結果。"
 ---
 
 矽光子把導光、分光、調變與偵測等功能整合到光子積體電路（PIC）。這篇先看**被動光路**：光進入晶片後，如何沿著波導走、如何分到另一條路、如何再回到光纖。後篇再談調變器、偵測器和多工。
@@ -44,7 +44,3 @@ sourceNote: "依據《Silicon Photonics》30 張投影片重新編寫；PDF 與 
 4. 波長、偏振與溫度變化會怎樣影響結果？
 
 把這些問題釐清，才有基礎討論後續調變、偵測或 CPO 封裝。下一篇接著整理[矽光子收發鏈：調變、偵測與多工](/articles/silicon-photonics-transceiver/)。
-
-## 原始資料
-
-這份簡報有兩種格式，內容相同：[閱讀 PDF](/assets/documents/silicon-photonics.pdf)或[下載可編輯的 PPTX](/assets/documents/silicon-photonics.pptx)。簡報中的外部圖表與連結保留在原檔；本文圖示為重新繪製。
