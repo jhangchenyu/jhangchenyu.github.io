@@ -7,7 +7,7 @@ layout: base.njk
   <p class="eyebrow">{{ topic.english }}</p>
   <h1>{{ title }}</h1>
   <p class="post-description">{{ description }}</p>
-  <div class="post-meta"><span>jimjcy</span><time datetime="{{ page.date | dateText }}">{{ page.date | dateText }}</time><span>{{ content | readTime }} 分鐘閱讀</span>{% if updated %}<span>更新 {{ updated | dateText }}</span>{% endif %}</div>
+  <div class="post-meta"><span>jimjcy</span><time datetime="{{ page.date | dateText }}">發布 {{ page.date | dateText }}</time><span>{{ content | readTime }} 分鐘閱讀</span>{% if updated %}<span>更新 {{ updated | dateText }}</span>{% endif %}</div>
   <div class="article-tags">{% for tag in tags %}<a href="{{ '/articles/' | url }}?q={{ tag | urlencode }}">#{{ tag }}</a>{% endfor %}</div>
 </header>
 <div class="post-layout">

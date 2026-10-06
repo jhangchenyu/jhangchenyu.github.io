@@ -1,5 +1,5 @@
 [
-  { "id": "quantum", "name": "量子計算", "section": "research", "path": "/research/quantum/", "english": "Quantum computing", "number": "01", "description": "從離子阱與量子光學出發，記錄實驗、建模與量子計算的學習線索。", "keywords": ["離子阱", "量子光學", "實驗控制"] },
+  { "id": "quantum", "name": "量子計算", "section": "research", "path": "/research/quantum/", "english": "Quantum computing", "number": "01", "description": "整理量子硬體、容錯架構與量子演算法的閱讀筆記。", "keywords": ["量子硬體", "QEC", "容錯運算"] },
   { "id": "packaging-sipi", "name": "先進封裝 SI/PI", "section": "research", "path": "/research/packaging-si-pi/", "english": "Advanced packaging · SI / PI", "number": "02", "description": "從訊號與供電的角度觀察先進封裝，整理玻璃基板、矽光子與電源網路等主題。", "keywords": ["先進封裝", "訊號完整性", "電源完整性"] },
   { "id": "ai", "name": "AI", "section": "research", "path": "/research/ai/", "english": "Artificial intelligence", "number": "03", "description": "整理 AI 模型、工具、算力與應用發展的閱讀筆記。", "keywords": ["模型", "算力", "應用"] },
   { "id": "defense", "name": "軍工", "section": "research", "path": "/research/defense/", "english": "Defense technology", "number": "04", "description": "從公開資料觀察國防科技、產業與供應鏈。", "keywords": ["國防科技", "產業", "公開資料"] },

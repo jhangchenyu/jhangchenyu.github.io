@@ -2,6 +2,7 @@
   'use strict';
   const form = document.querySelector('[data-search-index]');
   if (!form) return;
+  const filters = form.closest('[data-search-filters]');
   const output = document.querySelector('[data-search-results]');
   const status = document.querySelector('[data-search-status]');
   const query = form.elements.q;
@@ -23,7 +24,7 @@
     for (const entry of matches) {
       const row = node('article', undefined, 'article-row');
       const meta = node('div', undefined, 'article-meta');
-      const date = node('time', entry.date); date.dateTime = entry.date;
+    const date = node('time', `發布 ${entry.date}`); date.dateTime = entry.date;
       meta.append(node('span', entry.categoryName), date);
       const body = node('div');
       const heading = node('h3');
@@ -51,6 +52,10 @@
     const params = new URLSearchParams(location.search);
     query.value = params.get('q') || '';
     category.value = params.get('category') || '';
+    if (filters) {
+      filters.hidden = false;
+      filters.open = Boolean(query.value || category.value);
+    }
     form.hidden = false;
     form.addEventListener('submit', event => { event.preventDefault(); render(); });
     form.addEventListener('input', render);

@@ -4,6 +4,6 @@ title: 研究主題
 navSection: research
 permalink: /research/index.html
 ---
-<div class="page-intro"><p class="eyebrow">RESEARCH NOTEBOOK</p><h1>研究主題<span class="english-heading">Follow the questions.</span></h1><p class="lead">從物理到工程，從元件到產業。<br>依主題整理閱讀、實作與持續追蹤的問題。</p></div>
-<div class="topic-grid">{% for topic in topics %}{% if topic.section == 'research' %}<a class="topic-card" href="{{ topic.path | url }}"><div class="topic-top"><span>{{ topic.number }}</span><span>{{ (collections.articles | inTopic(topic.id)).length }} 篇文章</span></div><h2>{{ topic.name }}</h2><p class="topic-english">{{ topic.english }}</p><p>{{ topic.description }}</p><div class="topic-keywords">{% for word in topic.keywords %}<span>{{ word }}</span>{% endfor %}</div></a>{% endif %}{% endfor %}</div>
-<section class="latest-section"><div class="section-title"><div><p class="eyebrow">RECENT RESEARCH</p><h2>研究筆記</h2></div><a href="{{ '/articles/' | url }}">文章索引</a></div>{% set articleList = collections.articles | inSection('research') | latest(6) %}{% include 'article-list.njk' %}</section>
+<div class="page-intro"><p class="eyebrow">RESEARCH NOTEBOOK</p><h1>研究主題</h1><p class="lead">所有研究文章依日期由新到舊排列。選擇分類可單獨瀏覽該主題。</p></div>
+<nav class="topic-tabs" aria-label="研究文章分類"><a href="{{ '/research/' | url }}" aria-current="page">所有文章</a>{% for item in topics %}{% if item.section == 'research' %}<a href="{{ item.path | url }}">{{ item.name }}</a>{% endif %}{% endfor %}</nav>
+<section class="archive-section"><div class="archive-heading"><h2>所有研究文章</h2><span>{{ (collections.articles | inSection('research')).length }} 篇 · 由新到舊</span></div>{% set articleList = collections.articles | inSection('research') %}{% include 'article-list.njk' %}</section>
