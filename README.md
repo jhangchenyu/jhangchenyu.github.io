@@ -4,8 +4,8 @@
 
 修改網站內容或文章，請先看 [網站內容與文章更新中文教學](文章更新教學.md)，內含首頁、個人介紹、研究分類、推薦網站與文章的修改位置、範例及發布步驟。
 
-- 網站：https://jhangchenyu.github.io/
-- 發布狀態：https://github.com/jhangchenyu/jhangchenyu.github.io/actions
+- 網站：https://sbgjim1006.github.io/jhangchenyu.github.io/
+- 發布狀態：https://github.com/sbgjim1006/jhangchenyu.github.io/actions
 
 ## 修改網站後，一次發布全部更新
 
@@ -69,14 +69,14 @@ status: draft
 新草稿的圖片放在 `drafts/assets/文章slug/`，例如 `drafts/assets/my-first-note/figure.jpg`。文章寫：
 
 ```markdown
-![圖片的文字說明](/assets/articles/my-first-note/figure.jpg)
+![圖片的文字說明](/jhangchenyu.github.io/assets/articles/my-first-note/figure.jpg)
 ```
 
 首次發布工具會一起複製與推送這篇文章的圖片。更新已公開的圖片時，請編輯 `src/assets/articles/文章slug/`，再執行「發布網站.cmd」；只替換圖片也能發布。勿使用電腦磁碟路徑作為圖片網址。
 
 ## 預覽與檔案位置
 
-雙擊 **預覽網站.cmd**，然後開啟 http://localhost:4173/。保留終端機視窗以維持預覽；完成後按 Ctrl+C。預覽顯示公開文章，草稿仍保留在本機。
+雙擊 **預覽網站.cmd**，然後開啟 http://localhost:4173/jhangchenyu.github.io/。保留終端機視窗以維持預覽；完成後按 Ctrl+C。預覽顯示公開文章，草稿仍保留在本機。
 
 | 想修改的內容 | 檔案 |
 | --- | --- |
@@ -104,6 +104,6 @@ npm start
 
 `npm run build` 會驗證文章並輸出 `_site/`。GitHub Pages 設定使用 **GitHub Actions**；工作流程只上傳 `_site/`。原始履歷、私人聯絡資料、本機草稿、`node_modules/` 不包含在發布內容中。
 
-網站品牌為 jimjcy。目前免費主機名稱沿用 GitHub 帳號 `jhangchenyu`；品牌改名不會自動變更 GitHub 帳號或取得 `jimjcy.github.io`。網址確定後可調整 `site.json` 中的 `url`、`basePath`，再配合對應的 Pages 設定。
+網站品牌為 jimjcy。GitHub 帳號為 `sbgjim1006`，儲存庫名稱為 `jhangchenyu.github.io`，目前網址是 `https://sbgjim1006.github.io/jhangchenyu.github.io/`。`site.json` 的 `url` 設為 `https://sbgjim1006.github.io`，`basePath` 設為 `/jhangchenyu.github.io/`；未來更換網址時，這兩項與 Pages 設定需一併更新。
 
 動態效果支援右上角暫停、跨頁記憶與系統「減少動態」設定；未啟用 JavaScript 時仍能閱讀文章、瀏覽分類與導覽。

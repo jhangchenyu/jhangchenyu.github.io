@@ -1,9 +1,9 @@
 {
   "name": "jimjcy",
-  "url": "https://jhangchenyu.github.io",
-  "basePath": "/",
+  "url": "https://sbgjim1006.github.io",
+  "basePath": "/jhangchenyu.github.io/",
   "description": "從離子阱研究到半導體工程，記錄量子計算、先進封裝 SI/PI，以及工作與生活。",
-  "repository": "https://github.com/jhangchenyu/jhangchenyu.github.io",
+  "repository": "https://github.com/sbgjim1006/jhangchenyu.github.io",
   "socials": [
     { "name": "LinkedIn", "url": "https://www.linkedin.com/in/chenyujhang", "handle": "Chen-Yu Jhang" },
     { "name": "X", "url": "https://x.com/SBG_jerry_1006", "handle": "@SBG_jerry_1006" }
