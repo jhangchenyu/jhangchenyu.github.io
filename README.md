@@ -7,6 +7,12 @@
 - 網站：https://jhangchenyu.github.io/
 - 發布狀態：https://github.com/jhangchenyu/jhangchenyu.github.io/actions
 
+## 修改首頁後怎麼更新
+
+修改 `src/index.njk` 後按 Ctrl+S，雙擊 **發布首頁.cmd**，確認列出的修改後按 Enter。等本次 GitHub Actions 部署成功，再重新整理線上首頁。這個按鈕只提交首頁，不會把其他尚未提交的檔案一起提交；推送時會包含先前已提交但尚未推送的版本。
+
+首頁最上方的 `description:` 是網頁摘要，不是畫面上的自我介紹。要修改訪客看到的文字，請用 Ctrl+F 找到目前顯示的句子，例如「我是 Jim」或「從量子實驗」，修改該段文字後發布。
+
 ## 寫文章：平常只要兩個步驟
 
 1. 雙擊 **新增文章.cmd**，輸入標題、選分類。記事本會開啟新草稿；填好摘要、標籤及文章內容後存檔。
@@ -72,7 +78,7 @@ status: draft
 | 文章 | `src/posts/*.md` |
 | 樣式、動畫、搜尋 | `src/assets/` |
 
-新增推薦網站請編輯 `resources.json`，填入名稱 `name`、網址 `url`、顯示網域 `host`、分組 `group`、網站類型 `type` 與簡介 `description`。沿用既有分組時只需改這個檔案；新增分組還要在 `src/links.njk` 的 `resourceGroups` 加入同名分組。除文章外的網站設定或版面修改，需要提交相關檔案並 `git push`，不會由文章發布工具代為提交。完整指令與範例見中文教學。
+新增推薦網站請編輯 `resources.json`，填入名稱 `name`、網址 `url`、顯示網域 `host`、分組 `group`、網站類型 `type` 與簡介 `description`。沿用既有分組時只需改這個檔案；新增分組還要在 `src/links.njk` 的 `resourceGroups` 加入同名分組。首頁可用「發布首頁.cmd」；其他網站設定或版面修改，需要提交相關檔案並 `git push`，不會由文章發布工具代為提交。完整指令與範例見中文教學。
 
 ## 換電腦或重新安裝
 
