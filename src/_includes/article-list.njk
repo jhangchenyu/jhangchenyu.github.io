@@ -10,5 +10,5 @@
 {% endfor %}
 </div>
 {% else %}
-<div class="empty-state"><span class="empty-line" aria-hidden="true"></span><h3>這一頁，留給下一篇。</h3><p>這個分類還沒有公開文章。之後的新筆記會收錄在這裡。</p><a href="{{ '/articles/' | url }}">瀏覽所有文章</a></div>
+<div class="empty-state"><span class="empty-line" aria-hidden="true"></span><h3>這一頁，留給下一篇。</h3><p>{{ emptyMessage or '這個分類還沒有公開文章。之後的新筆記會收錄在這裡。' }}</p><a href="{{ '/articles/' | url }}">瀏覽所有文章</a></div>
 {% endif %}
