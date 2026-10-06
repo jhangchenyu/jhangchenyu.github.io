@@ -10,7 +10,9 @@ let checked = 0;
 for (const file of files.filter(file => file.endsWith('.html'))) {
   const html = fs.readFileSync(file, 'utf8');
   if ((html.match(/<h1(?:\s|>)/g) || []).length !== 1) failures.push(`${file}: expected one h1`);
-  if (html.includes('undefined') || html.includes('[object Object]')) failures.push(`${file}: unresolved template value`);
+  // Standalone tools may legitimately use JavaScript's undefined value.
+  const markup = html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '');
+  if (markup.includes('undefined') || markup.includes('[object Object]')) failures.push(`${file}: unresolved template value`);
   for (const [, raw] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     if (/^(?:https?:|data:|mailto:|tel:)/.test(raw)) continue;
     let href = raw.split(/[?#]/)[0];

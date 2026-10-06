@@ -324,6 +324,31 @@ input:focus-visible, select:focus-visible { outline: 3px solid var(--blue); outl
 .footer-socials { display: flex; gap: 22px; padding-top: 7px; }
 .footer-meta { text-align: right; }
 .motion-enabled .topic-card, .motion-enabled .home-portals > a { transition: background-color .2s ease; }
+.tools-collection { padding-bottom: 75px; }
+.tool-feature { display: grid; grid-template-columns: minmax(220px, .75fr) minmax(0, 1.5fr); border: 1px solid var(--line); }
+.tool-emblem { background: #edf2ea; color: #355a34; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; gap: 26px; }
+.tool-emblem span { font-size: 11px; letter-spacing: .12em; }
+.tool-emblem svg { width: 120px; height: 120px; }
+.tool-copy { padding: 40px 44px; }
+.tool-copy h2 { font-size: 30px; font-weight: 500; margin: 12px 0 18px; }
+.tool-copy > p:not(.eyebrow) { color: var(--muted); font-size: 16px; max-width: 35em; }
+.tool-features { display: flex; flex-wrap: wrap; gap: 10px 24px; list-style: none; padding: 0; margin: 24px 0 30px; color: #355a34; font-size: 13px; }
+.tool-launch { display: inline-flex; align-items: center; gap: 30px; background: var(--ink); color: #fff; padding: 12px 20px; text-decoration: none; font-size: 15px; }
+.tool-launch:hover { background: #355a34; color: #fff; }
+.tool-copy .tool-note { font-size: 12px !important; margin: 18px 0 0; }
+@media (max-width: 960px) {
+  .site-header { grid-template-columns: 1fr auto; gap: 12px; }
+  .site-nav { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; flex-wrap: wrap; }
+  .motion-toggle { grid-column: 2; grid-row: 1; }
+}
+@media (max-width: 600px) {
+  .tool-feature { grid-template-columns: 1fr; }
+  .tool-emblem { flex-direction: row; padding: 24px; gap: 16px; }
+  .tool-emblem svg { width: 55px; height: 70px; flex-shrink: 0; }
+  .tool-emblem span { max-width: 90px; font-size: 10px; }
+  .tool-copy { padding: 28px 24px; }
+  .tool-copy h2 { font-size: 26px; }
+}
 @media (hover: hover) { .topic-card:hover, .home-portals > a:hover { background: var(--tint); } }
 @media (max-width: 1080px) {
   .brand-note { display: none; }

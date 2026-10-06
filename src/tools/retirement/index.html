@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>退休計畫模擬器 · jimjcy</title>
+<meta name="description" content="比較自動與自訂退休年齡，調整收入、資產、通膨與房貸條件，查看雙薪家庭的資產走勢。">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="../../assets/vendor/chart.umd-4.4.1.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f5f3ef;--surface:#fff;--surface2:#faf9f7;--surface3:#f0eee9;
+  --text:#1a1a18;--text2:#6b6960;--text3:#9e9a90;
+  --accent:#2d5a27;--accent2:#4a8c3f;--accent-bg:#eef4ec;
+  --blue:#2a6496;--blue2:#3d7eb8;--blue-bg:#eef4fa;
+  --danger:#b13a3a;--danger-bg:#fceaea;
+  --warn:#c87a1a;--warn-bg:#fdf4e6;
+  --border:#e5e2dc;--radius:10px;--radius-lg:14px;
+  --font:'Noto Sans TC',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 2px 8px rgba(0,0,0,.06);
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.header{background:linear-gradient(135deg,#2d5a27,#1f4319);color:#fff;padding:2.5rem 0;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-60%;right:-10%;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,.05)}
+.header-inner{max-width:1240px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+.header h1{font-size:1.75rem;font-weight:600;letter-spacing:-.02em}
+.header p{color:rgba(255,255,255,.75);font-size:.88rem;margin-top:.25rem}
+.precision-badge{display:inline-block;font-size:.7rem;background:rgba(255,255,255,.18);color:#fff;padding:3px 10px;border-radius:20px;margin-top:.6rem;font-family:var(--mono);letter-spacing:.04em}
+
+.container{max-width:1240px;margin:0 auto;padding:1.5rem 2rem 3rem}
+
+/* Dual dashboard */
+.dual-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:-2.5rem 0 1rem;position:relative;z-index:2}
+.dash-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;box-shadow:var(--shadow);transition:box-shadow .25s}
+.dash-panel:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.dash-panel.auto{border-top:3px solid var(--accent)}
+.dash-panel.manual{border-top:3px solid var(--blue)}
+.dash-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.dash-panel-tag{font-size:.65rem;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
+.tag-auto{background:var(--accent-bg);color:var(--accent)}
+.tag-manual{background:var(--blue-bg);color:var(--blue)}
+.dash-panel-title{font-size:.95rem;font-weight:600}
+
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dash-cell{background:var(--surface2);border-radius:8px;padding:.75rem .9rem;transition:background .2s}
+.dash-cell .dc-label{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.18rem;font-weight:500}
+.dash-cell .dc-value{font-size:1.3rem;font-weight:600;font-family:var(--mono);letter-spacing:-.02em;line-height:1.15}
+.dash-cell .dc-sub{font-size:.7rem;color:var(--text2);margin-top:.18rem}
+.auto-val{color:var(--accent)}.manual-val{color:var(--blue)}
+.dash-cell.warn{background:var(--danger-bg)}.dash-cell.warn .dc-value{color:var(--danger)}
+.dash-cell.success{background:var(--accent-bg)}
+
+.manual-control{display:flex;align-items:center;gap:12px;margin-top:.85rem;padding:.7rem .9rem;background:var(--blue-bg);border-radius:8px}
+.manual-control label{font-size:.72rem;font-weight:600;color:var(--blue);min-width:64px;text-transform:uppercase;letter-spacing:.04em}
+.manual-control input[type=range]{flex:1;-webkit-appearance:none;height:5px;border-radius:3px;background:#c5d8ea;outline:none}
+.manual-control input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--blue);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .1s}
+.manual-control input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.manual-control .mc-val{font-family:var(--mono);font-size:.95rem;font-weight:600;color:var(--blue);min-width:90px;text-align:right}
+
+/* Comparison strip */
+.compare-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.compare-item{font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:.5rem}
+.compare-item strong{font-family:var(--mono);font-weight:600;color:var(--text)}
+.compare-item .delta{padding:2px 8px;border-radius:4px;font-family:var(--mono);font-size:.78rem;font-weight:600}
+.delta-good{background:var(--accent-bg);color:var(--accent)}
+.delta-bad{background:var(--danger-bg);color:var(--danger)}
+.delta-neutral{background:var(--surface3);color:var(--text2)}
+
+/* Main grid */
+.main-grid{display:grid;grid-template-columns:340px 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-sm)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.panel-title{font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
+.panel-title-main{font-size:.95rem;font-weight:600;color:var(--text);text-transform:none;letter-spacing:0}
+
+/* Toggle */
+.toggle-group{display:inline-flex;background:var(--surface3);border-radius:6px;padding:2px;font-size:.75rem}
+.toggle-btn{border:0;background:transparent;padding:4px 12px;border-radius:5px;font-size:.75rem;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.toggle-btn.active{background:var(--surface);color:var(--text);font-weight:600;box-shadow:var(--shadow-sm)}
+
+/* Series visibility toggles */
+.series-toggles{display:inline-flex;gap:6px}
+.series-tog{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;font-size:.75rem;cursor:pointer;user-select:none;border:1px solid var(--border);background:var(--surface);transition:all .15s}
+.series-tog input{display:none}
+.series-tog .tog-dot{width:10px;height:10px;border-radius:50%;background:var(--text3);transition:background .15s}
+.series-tog.auto-tog.active{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600}
+.series-tog.auto-tog.active .tog-dot{background:var(--accent)}
+.series-tog.manual-tog.active{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);font-weight:600}
+.series-tog.manual-tog.active .tog-dot{background:var(--blue)}
+.series-tog:not(.active){opacity:.55}
+.series-tog:hover{opacity:1}
+
+/* Form */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-group{display:flex;flex-direction:column;gap:3px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:.72rem;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.03em}
+.form-group input[type=number]{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:.9rem;font-family:var(--mono);background:var(--surface2);outline:none;transition:all .15s;width:100%}
+.form-group input[type=number]:focus{border-color:var(--accent);background:var(--surface)}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.slider-row label{font-size:.72rem;color:var(--text3);font-weight:500;min-width:72px;text-transform:uppercase;letter-spacing:.03em}
+.slider-row input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border);outline:none}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.slider-row .slider-val{font-family:var(--mono);font-size:.85rem;font-weight:600;min-width:42px;text-align:right;color:var(--accent)}
+.sep{border:none;border-top:1px dashed var(--border);margin:14px 0}
+.section-label{font-size:.7rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-top:4px}
+
+/* Chart */
+.chart-area{position:relative;width:100%;height:360px}
+.chart-legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:.85rem;font-size:.78rem;color:var(--text2)}
+.chart-legend span{display:flex;align-items:center;gap:6px}
+
+/* Timeline */
+.timeline{padding:1.1rem 1.3rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);border-left:4px solid var(--accent);font-size:.85rem;color:var(--text2);box-shadow:var(--shadow-sm)}
+.timeline .tl-title{font-weight:600;color:var(--text);margin-bottom:.6rem;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
+.timeline .tl-title::before{content:'';width:4px;height:16px;background:var(--accent);border-radius:2px}
+.timeline .tl-item{margin-bottom:.3rem;padding-left:.5rem;display:flex;align-items:flex-start;gap:.5rem}
+.timeline .tl-item::before{content:'>';color:var(--accent);font-weight:700;font-family:var(--mono)}
+.timeline .tl-danger{color:var(--danger)}.timeline .tl-danger::before{color:var(--danger)}
+.timeline .tl-highlight{font-weight:600;color:var(--accent)}
+.timeline .tl-blue{font-weight:600;color:var(--blue)}.timeline .tl-blue::before{color:var(--blue)}
+
+/* Comments */
+.comment-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-sm)}
+.comment-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1rem}
+.comment-card{background:var(--surface2);border-radius:var(--radius);padding:1rem 1.15rem;border-left:3px solid var(--accent);transition:transform .15s}
+.comment-card:hover{transform:translateY(-1px)}
+.comment-card.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.comment-card.info{border-left-color:var(--blue);background:var(--blue-bg)}
+.comment-card.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.comment-card .cc-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.comment-card .cc-body{font-size:.8rem;color:var(--text2);line-height:1.6}
+.comment-card .cc-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:.45rem;text-transform:uppercase;letter-spacing:.05em}
+.comment-card .tag-assumption{background:var(--accent-bg);color:var(--accent)}
+.comment-card .tag-risk{background:#fceaea;color:var(--danger)}
+.comment-card .tag-tip{background:var(--blue-bg);color:var(--blue)}
+.comment-card .tag-warning{background:var(--warn-bg);color:var(--warn)}
+
+.footer{text-align:center;padding:2rem 0 1rem;font-size:.75rem;color:var(--text3)}
+
+/* Reset button */
+.reset-btn{background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:.7rem;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.reset-btn:hover{background:var(--surface);color:var(--text)}
+
+@media(max-width:980px){.dual-dashboard{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.container{padding:1rem}.header-inner{padding:0 1rem}.dash-grid{grid-template-columns:1fr}}
+/* Website integration; the original calculation script is unchanged. */
+.tool-site-nav{max-width:1240px;margin:0 auto;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.tool-site-nav a{color:var(--accent);font-size:.85rem;text-decoration:none}
+.tool-site-nav a:hover{text-decoration:underline}
+.tool-site-nav .tool-site-brand{font-size:1.2rem;font-weight:600}
+.main-grid>*,.dual-dashboard>*,.form-group{min-width:0}
+.form-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+.panel-header{flex-wrap:wrap;gap:12px}
+.slider-row input[type=range],.manual-control input[type=range]{min-width:0;width:100%}
+.manual-control{flex-wrap:wrap}
+.manual-control input[type=range]{flex-basis:80px}
+.comment-grid{grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr))}
+.series-tog input{display:block;position:absolute;opacity:0;width:1px;height:1px}
+.series-tog:focus-within{outline:3px solid var(--blue);outline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+@media(max-width:600px){.tool-site-nav{padding:.85rem 1rem}}
+</style>
+</head>
+<body>
+<nav class="tool-site-nav" aria-label="網站導覽"><a href="../../" class="tool-site-brand">jimjcy</a><a href="../">← 個人小工具</a></nav>
+<noscript><p style="padding:1rem;text-align:center">請啟用 JavaScript 以使用退休計畫模擬器。</p></noscript>
+<div class="header"><div class="header-inner">
+<h1>退休計畫模擬器</h1>
+<p>雙薪家庭 · 自動計算 vs 自訂退休年齡 · 雙軌對照</p>
+<span class="precision-badge">精度 0.25 年（每季）</span>
+</div></div>
+
+<div class="container">
+
+<!-- Dual Dashboard -->
+<div class="dual-dashboard">
+  <div class="dash-panel auto">
+    <div class="dash-panel-header"><span class="dash-panel-title">自動計算</span><span class="dash-panel-tag tag-auto">最早可退休</span></div>
+    <div class="dash-grid">
+      <div class="dash-cell"><div class="dc-label">退休年齡</div><div class="dc-value auto-val" id="a-age">—</div><div class="dc-sub" id="a-years"></div></div>
+      <div class="dash-cell"><div class="dc-label">退休時資產</div><div class="dc-value auto-val" id="a-fire">—</div><div class="dc-sub" id="a-fire-real"></div></div>
+      <div class="dash-cell"><div class="dc-label">退休時月支出</div><div class="dc-value auto-val" id="a-exp">—</div><div class="dc-sub" id="a-exp-sub"></div></div>
+      <div class="dash-cell success"><div class="dc-label">預期壽命時剩餘</div><div class="dc-value auto-val" id="a-end">0 萬</div><div class="dc-sub">設計歸零</div></div>
+    </div>
+  </div>
+  <div class="dash-panel manual">
+    <div class="dash-panel-header"><span class="dash-panel-title">自訂模式</span><span class="dash-panel-tag tag-manual">手動調整</span></div>
+    <div class="dash-grid">
+      <div class="dash-cell"><div class="dc-label">退休年齡</div><div class="dc-value manual-val" id="m-age">—</div><div class="dc-sub" id="m-years"></div></div>
+      <div class="dash-cell"><div class="dc-label">退休時資產</div><div class="dc-value manual-val" id="m-fire">—</div><div class="dc-sub" id="m-fire-real"></div></div>
+      <div class="dash-cell"><div class="dc-label">退休時月支出</div><div class="dc-value manual-val" id="m-exp">—</div><div class="dc-sub" id="m-exp-sub"></div></div>
+      <div class="dash-cell" id="m-end-cell"><div class="dc-label">預期壽命時剩餘</div><div class="dc-value manual-val" id="m-end">—</div><div class="dc-sub" id="m-end-sub"></div></div>
+    </div>
+    <div class="manual-control">
+      <label for="i-manual-age">退休年齡</label>
+      <input type="range" id="i-manual-age" min="30" max="80" value="50" step="0.25">
+      <span class="mc-val" id="o-manual-age">50 歲</span>
+    </div>
+  </div>
+</div>
+
+<!-- Comparison strip -->
+<div class="compare-strip" id="compare-strip"></div>
+
+<!-- Main: Settings | Chart | Timeline -->
+<div class="main-grid">
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title-main">參數設定</div>
+      <button class="reset-btn" id="reset-btn" title="重設為預設值">重設</button>
+    </div>
+
+    <div class="section-label">基本資料</div>
+    <div class="form-row">
+      <div class="form-group"><label for="i-age">目前年齡</label><input type="number" id="i-age" value="35" min="20" max="65"></div>
+      <div class="form-group"><label for="i-life">預期壽命</label><input type="number" id="i-life" value="85" min="60" max="100"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label for="i-nw1">本人淨資產（萬）</label><input type="number" id="i-nw1" value="500"></div>
+      <div class="form-group"><label for="i-nw2">伴侶淨資產（萬）</label><input type="number" id="i-nw2" value="100"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label for="i-sal1">本人年薪（萬）</label><input type="number" id="i-sal1" value="200"></div>
+      <div class="form-group"><label for="i-sal2">伴侶年薪（萬）</label><input type="number" id="i-sal2" value="200"></div>
+    </div>
+    <div class="form-group full" style="margin-bottom:10px"><label for="i-exp">退休後月支出（萬，今日幣值）</label><input type="number" id="i-exp" value="20"></div>
+
+    <hr class="sep">
+    <div class="section-label">總體經濟假設</div>
+    <div class="slider-row"><label for="i-sr">儲蓄率</label><input type="range" id="i-sr" min="10" max="80" value="40" step="1"><span class="slider-val" id="o-sr">40%</span></div>
+    <div class="slider-row"><label for="i-ret">投資報酬率</label><input type="range" id="i-ret" min="0" max="15" value="7" step="0.25"><span class="slider-val" id="o-ret">7.00%</span></div>
+    <div class="slider-row"><label for="i-inf">通膨率</label><input type="range" id="i-inf" min="0" max="8" value="3" step="0.25"><span class="slider-val" id="o-inf">3.00%</span></div>
+    <div class="slider-row"><label for="i-sg">薪資成長率</label><input type="range" id="i-sg" min="0" max="10" value="3" step="0.25"><span class="slider-val" id="o-sg">3.00%</span></div>
+
+    <hr class="sep">
+    <div class="section-label">房貸</div>
+    <div class="form-row">
+      <div class="form-group"><label for="i-mort">房貸總額（萬）</label><input type="number" id="i-mort" value="2000"></div>
+      <div class="form-group"><label for="i-morty">房貸年限</label><input type="number" id="i-morty" value="30"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:0"><label for="i-mortr">房貸利率（%）</label><input type="number" id="i-mortr" value="2.2" step="0.1"></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem">
+    <div class="panel" style="flex:1">
+      <div class="panel-header">
+        <div class="panel-title-main">資產曲線對照</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <div class="series-toggles">
+            <label class="series-tog auto-tog active" id="tog-show-auto"><input type="checkbox" checked><span class="tog-dot"></span>自動</label>
+            <label class="series-tog manual-tog active" id="tog-show-manual"><input type="checkbox" checked><span class="tog-dot"></span>自訂</label>
+          </div>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="tog-nominal" data-mode="nominal">名目</button>
+            <button class="toggle-btn" id="tog-real" data-mode="real">實質（今日幣值）</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-area"><canvas id="chart"></canvas></div>
+      <div class="chart-legend" id="legend"></div>
+    </div>
+    <div id="timeline-wrap" class="timeline"></div>
+  </div>
+</div>
+
+<div class="comment-section">
+  <div class="panel-header" style="margin-bottom:0;padding-bottom:.6rem">
+    <div class="panel-title-main">模型假設與分析備註</div>
+  </div>
+  <div class="comment-grid" id="comments"></div>
+</div>
+
+</div>
+<div class="footer">退休計畫模擬器 · 僅供參考，不構成投資建議 · 實際情況請諮詢專業理財顧問</div>
+
+<script>
+'use strict';
+
+// ============================================================
+// Constants & utilities
+// ============================================================
+const STEP = 0.25;              // quarter-year precision
+const STEPS_PER_YEAR = 4;       // 4 quarters per year
+const STORAGE_KEY = 'retirement_planner_v3';
+
+const $ = id => document.getElementById(id);
+
+const stepRate = annual => Math.pow(1 + annual, STEP) - 1;
+const fmt = n => Math.round(n).toLocaleString();
+const ageDisplay = a => {
+  const y = Math.floor(a + 1e-9);
+  const m = Math.round((a - y) * 12);
+  return m === 0 ? y + ' 歲' : y + ' 歲 ' + m + ' 個月';
+};
+
+function pmtAnnual(rate, years, pv) {
+  if (rate === 0) return pv / years;
+  const r = rate / 12, n = years * 12;
+  return pv * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1) * 12;
+}
+
+// ============================================================
+// Core simulation
+// ============================================================
+/**
+ * Simulate full lifetime cash flow.
+ * Returns: { trajectory[], portfolioAtRetire, endVal, ok, deplAge }
+ *
+ * Work phase:    p_next = p * (1 + stepRet) + sal*sr*step - mort*step
+ * Retire phase:  p_next = p * (1 + stepRet) - exp*step - mort*step (if mortgage still active)
+ *
+ * Mortgage continues to be paid even after retirement until paid off.
+ * Living expense (monthExp) starts at retirement, grows with inflation.
+ */
+function simulate(retireAge, p) {
+  const { age, lifeExp, nw, sal, sr, ret, inf, monthExp, annualMort, mortEndAge, sg } = p;
+  const sRet = stepRate(ret);
+  const sSg  = stepRate(sg);
+  const sInf = stepRate(inf);
+  const totalSteps = Math.round((lifeExp - age) * STEPS_PER_YEAR);
+  const retireStep = Math.round((retireAge - age) * STEPS_PER_YEAR);
+
+  let portfolio = nw;
+  let curSal = sal;
+  // Expense per step at retirement, inflated from today
+  let stepExp = monthExp * 12 * STEP * Math.pow(1 + inf, retireAge - age);
+  let portfolioAtRetire = retireStep === 0 ? nw : null;
+
+  const trajectory = [{ age, value: portfolio }];
+  let deplAge = null;
+
+  for (let s = 0; s < totalSteps; s++) {
+    const curAge = age + s * STEP;
+    const nextAge = curAge + STEP;
+    const mort = curAge < mortEndAge ? annualMort * STEP : 0;
+
+    if (s < retireStep) {
+      // Work phase
+      portfolio = portfolio * (1 + sRet) + curSal * sr * STEP - mort;
+      curSal *= (1 + sSg);
+    } else {
+      if (s === retireStep) {
+        portfolioAtRetire = portfolio;
+        stepExp = monthExp * 12 * STEP * Math.pow(1 + inf, retireAge - age);
+      }
+      portfolio = portfolio * (1 + sRet) - stepExp - mort;
+      stepExp *= (1 + sInf);
+    }
+
+    if (deplAge === null && portfolio < 0) deplAge = nextAge;
+    trajectory.push({ age: nextAge, value: portfolio });
+  }
+
+  if (portfolioAtRetire === null) portfolioAtRetire = portfolio;
+  const endVal = portfolio;
+  return {
+    trajectory,
+    portfolioAtRetire,
+    endVal,
+    ok: endVal >= -0.5,
+    deplAge
+  };
+}
+
+/**
+ * Search earliest retirement age (0.25-year precision).
+ */
+function findEarliest(p) {
+  for (let tryAge = p.age; tryAge < p.lifeExp; tryAge += STEP) {
+    const r = simulate(tryAge, p);
+    if (r.ok) return { age: tryAge, ...r };
+  }
+  return null;
+}
+
+// ============================================================
+// Inputs / state
+// ============================================================
+const DEFAULTS = {
+  'i-age': 35, 'i-life': 85,
+  'i-nw1': 500, 'i-nw2': 100,
+  'i-sal1': 200, 'i-sal2': 200,
+  'i-exp': 20,
+  'i-sr': 40, 'i-ret': 7, 'i-inf': 3, 'i-sg': 3,
+  'i-mort': 2000, 'i-morty': 30, 'i-mortr': 2.2,
+  'i-manual-age': 50
+};
+
+let chartMode = 'nominal'; // 'nominal' | 'real'
+let showAuto = true;
+let showManual = true;
+let chart = null;
+
+function readInputs() {
+  const v = id => +$(id).value;
+  return {
+    age:       v('i-age'),
+    lifeExp:   v('i-life'),
+    nw:        v('i-nw1') + v('i-nw2'),
+    sal:       v('i-sal1') + v('i-sal2'),
+    sr:        v('i-sr') / 100,
+    ret:       v('i-ret') / 100,
+    inf:       v('i-inf') / 100,
+    monthExp:  v('i-exp'),
+    sg:        v('i-sg') / 100,
+    mortTotal: v('i-mort'),
+    mortYears: v('i-morty'),
+    mortRate:  v('i-mortr') / 100,
+    get annualMort() { return this.mortTotal > 0 ? pmtAnnual(this.mortRate, this.mortYears, this.mortTotal) : 0; },
+    get mortEndAge() { return this.age + this.mortYears; }
+  };
+}
+
+function saveState() {
+  const state = {};
+  Object.keys(DEFAULTS).forEach(id => state[id] = $(id).value);
+  state.chartMode = chartMode;
+  state.showAuto = showAuto;
+  state.showManual = showManual;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+function loadState() {
+  try {
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    Object.keys(DEFAULTS).forEach(id => {
+      if (state[id] !== undefined) $(id).value = state[id];
+    });
+    if (state.chartMode) chartMode = state.chartMode;
+    if (state.showAuto !== undefined) showAuto = state.showAuto;
+    if (state.showManual !== undefined) showManual = state.showManual;
+  } catch (e) {}
+}
+
+function resetState() {
+  Object.keys(DEFAULTS).forEach(id => $(id).value = DEFAULTS[id]);
+  chartMode = 'nominal';
+  showAuto = true;
+  showManual = true;
+  updateToggle();
+  updateSeriesToggles();
+  calc();
+}
+
+function updateSeriesToggles() {
+  $('tog-show-auto').classList.toggle('active', showAuto);
+  $('tog-show-manual').classList.toggle('active', showManual);
+  $('tog-show-auto').querySelector('input').checked = showAuto;
+  $('tog-show-manual').querySelector('input').checked = showManual;
+}
+
+function updateToggle() {
+  $('tog-nominal').classList.toggle('active', chartMode === 'nominal');
+  $('tog-real').classList.toggle('active', chartMode === 'real');
+}
+
+// ============================================================
+// Render
+// ============================================================
+function calc() {
+  const p = readInputs();
+  const { age, lifeExp, nw, sal, sr, ret, inf, monthExp, annualMort, mortEndAge, sg } = p;
+
+  // Update slider value displays
+  $('o-sr').textContent  = Math.round(sr * 100) + '%';
+  $('o-ret').textContent = (ret * 100).toFixed(2) + '%';
+  $('o-inf').textContent = (inf * 100).toFixed(2) + '%';
+  $('o-sg').textContent  = (sg * 100).toFixed(2) + '%';
+
+  // Constrain manual slider to current age range
+  const ms = $('i-manual-age');
+  ms.min = age; ms.max = lifeExp - STEP; ms.step = STEP;
+  if (+ms.value < age) ms.value = age;
+  if (+ms.value > lifeExp - STEP) ms.value = lifeExp - STEP;
+  const manualAge = +ms.value;
+  $('o-manual-age').textContent = ageDisplay(manualAge);
+
+  // ===== AUTO =====
+  const auto = findEarliest(p);
+  // ===== MANUAL =====
+  const manual = simulate(manualAge, p);
+
+  renderAutoDashboard(auto, p);
+  renderManualDashboard(manual, manualAge, p);
+  renderCompareStrip(auto, manual, manualAge, p);
+  renderChart(auto, manual, manualAge, p);
+  renderTimeline(auto, manual, manualAge, p);
+  renderComments(auto, manual, manualAge, p);
+
+  saveState();
+}
+
+function renderAutoDashboard(auto, p) {
+  if (!auto) {
+    $('a-age').textContent = '無法達成';
+    $('a-age').style.color = 'var(--danger)';
+    $('a-years').textContent = '調整參數再試';
+    $('a-fire').textContent = $('a-fire-real').textContent = '—';
+    $('a-exp').textContent = $('a-exp-sub').textContent = '—';
+    $('a-end').textContent = '—';
+    return;
+  }
+  const ageStr = ageDisplay(auto.age);
+  const realFire = auto.portfolioAtRetire / Math.pow(1 + p.inf, auto.age - p.age);
+  const expAtRetire = p.monthExp * Math.pow(1 + p.inf, auto.age - p.age);
+  $('a-age').textContent = ageStr;
+  $('a-age').style.color = '';
+  $('a-years').textContent = auto.age === p.age ? '現在即可退休' : '距今 ' + (auto.age - p.age) + ' 年';
+  $('a-fire').textContent = fmt(auto.portfolioAtRetire) + ' 萬';
+  $('a-fire-real').textContent = '今日幣值 ≈ ' + fmt(realFire) + ' 萬';
+  $('a-exp').textContent = fmt(expAtRetire) + ' 萬';
+  $('a-exp-sub').textContent = '今日 ' + p.monthExp + ' 萬 × ' + (auto.age - p.age) + '年通膨';
+  $('a-end').textContent = fmt(Math.max(0, auto.endVal)) + ' 萬';
+}
+
+function renderManualDashboard(manual, manualAge, p) {
+  const realFire = manual.portfolioAtRetire / Math.pow(1 + p.inf, manualAge - p.age);
+  const expAtRetire = p.monthExp * Math.pow(1 + p.inf, manualAge - p.age);
+  $('m-age').textContent = ageDisplay(manualAge);
+  $('m-years').textContent = manualAge === p.age ? '現在退休' : '距今 ' + (manualAge - p.age) + ' 年';
+  $('m-fire').textContent = fmt(manual.portfolioAtRetire) + ' 萬';
+  $('m-fire-real').textContent = '今日幣值 ≈ ' + fmt(realFire) + ' 萬';
+  $('m-exp').textContent = fmt(expAtRetire) + ' 萬';
+  $('m-exp-sub').textContent = '今日 ' + p.monthExp + ' 萬 × ' + (manualAge - p.age) + '年通膨';
+
+  const cell = $('m-end-cell');
+  const endVal = manual.endVal;
+  if (endVal < -0.5) {
+    $('m-end').textContent = fmt(endVal) + ' 萬';
+    $('m-end-sub').textContent = manual.deplAge ? ageDisplay(manual.deplAge) + ' 資產耗盡' : '';
+    cell.classList.add('warn'); cell.classList.remove('success');
+  } else if (endVal > 100) {
+    $('m-end').textContent = fmt(endVal) + ' 萬';
+    $('m-end-sub').textContent = '有剩餘安全邊際';
+    cell.classList.add('success'); cell.classList.remove('warn');
+  } else {
+    $('m-end').textContent = fmt(Math.max(0, endVal)) + ' 萬';
+    $('m-end-sub').textContent = '剛好歸零';
+    cell.classList.remove('warn', 'success');
+  }
+}
+
+function renderCompareStrip(auto, manual, manualAge, p) {
+  const wrap = $('compare-strip');
+  if (!auto) {
+    wrap.innerHTML = `<div class="compare-item"><span>無法計算自動退休年齡，請調整參數</span></div>`;
+    return;
+  }
+  const yearDiff = manualAge - auto.age;
+  const portfolioDiff = manual.portfolioAtRetire - auto.portfolioAtRetire;
+  const endDiff = manual.endVal - auto.endVal;
+
+  let yearTag, yearLabel;
+  if (yearDiff > 0) { yearTag = 'delta-good'; yearLabel = '晚 ' + yearDiff + ' 年退休'; }
+  else if (yearDiff < 0) { yearTag = 'delta-bad'; yearLabel = '早 ' + (-yearDiff) + ' 年退休'; }
+  else { yearTag = 'delta-neutral'; yearLabel = '與自動相同'; }
+
+  const portfolioTag = portfolioDiff >= 0 ? 'delta-good' : 'delta-bad';
+  const endTag = endDiff >= 0 ? 'delta-good' : 'delta-bad';
+
+  // Annual net working cashflow (informational)
+  const yearlySave = p.sal * p.sr;
+  const yearlyMort = p.annualMort;
+  const netSave = yearlySave - yearlyMort;
+
+  wrap.innerHTML = `
+    <div class="compare-item"><span>自訂 vs 自動：</span><span class="delta ${yearTag}">${yearLabel}</span></div>
+    <div class="compare-item"><span>退休時資產差異：</span><strong>${(portfolioDiff >= 0 ? '+' : '') + fmt(portfolioDiff)} 萬</strong><span class="delta ${portfolioTag}">${portfolioDiff >= 0 ? '更多' : '較少'}</span></div>
+    <div class="compare-item"><span>壽終剩餘差異：</span><strong>${(endDiff >= 0 ? '+' : '') + fmt(endDiff)} 萬</strong><span class="delta ${endTag}">${endDiff >= 0 ? '更安全' : '更緊'}</span></div>
+    <div class="compare-item"><span>工作期淨儲蓄：</span><strong>${fmt(netSave)} 萬/年</strong><span style="font-size:.7rem;color:var(--text3)">(毛 ${fmt(yearlySave)} − 房貸 ${fmt(yearlyMort)})</span></div>
+  `;
+}
+
+function trajectoryToYearly(traj, age, lifeExp) {
+  // Pick value at each integer year (where age difference is integer)
+  const result = [];
+  for (let y = age; y <= lifeExp; y++) {
+    const idx = Math.round((y - age) * STEPS_PER_YEAR);
+    if (traj[idx]) result.push(Math.max(0, traj[idx].value));
+  }
+  return result;
+}
+
+function trajectoryToReal(traj, age, inf) {
+  return traj.map(pt => ({
+    age: pt.age,
+    value: pt.value / Math.pow(1 + inf, pt.age - age)
+  }));
+}
+
+function renderChart(auto, manual, manualAge, p) {
+  const labels = [];
+  for (let y = p.age; y <= p.lifeExp; y++) labels.push(y);
+
+  function getYearly(traj) {
+    const real = chartMode === 'real' ? trajectoryToReal(traj, p.age, p.inf) : traj;
+    return trajectoryToYearly(real, p.age, p.lifeExp);
+  }
+
+  const manualData = getYearly(manual.trajectory).map(v => Math.round(v));
+  const datasets = [];
+
+  if (auto && showAuto) {
+    const autoData = getYearly(auto.trajectory).map(v => Math.round(v));
+    datasets.push({
+      label: '自動 (' + ageDisplay(auto.age) + ' 退休)',
+      data: autoData,
+      borderColor: '#2d5a27',
+      backgroundColor: 'rgba(45,90,39,.10)',
+      fill: true, tension: .3, pointRadius: 0, borderWidth: 2.5
+    });
+  }
+  if (showManual) {
+    datasets.push({
+      label: '自訂 (' + ageDisplay(manualAge) + ' 退休)',
+      data: manualData,
+      borderColor: '#2a6496',
+      backgroundColor: 'rgba(42,100,150,.10)',
+      fill: true, tension: .3, pointRadius: 0, borderWidth: 2.5, borderDash: [6, 4]
+    });
+  }
+
+  $('legend').innerHTML = `
+    ${auto && showAuto ? `<span><i style="width:11px;height:11px;border-radius:2px;background:#2d5a27"></i>自動（${ageDisplay(auto.age)}）</span>` : ''}
+    ${showManual ? `<span><i style="width:14px;height:2px;background:#2a6496"></i>自訂（${ageDisplay(manualAge)}）</span>` : ''}
+    ${!showAuto && !showManual ? `<span style="color:var(--text3)">兩條曲線都已隱藏</span>` : ''}
+    <span style="color:var(--text3);margin-left:auto">${chartMode === 'real' ? '單位：萬元（今日購買力）' : '單位：萬元（名目）'}</span>
+  `;
+
+  // Vertical line annotations for retirement points
+  const retLines = {
+    id: 'retLines',
+    afterDraw(c) {
+      const ctx = c.ctx;
+      function draw(retAge, color) {
+        if (retAge === null || retAge === p.age) return;
+        const x = c.scales.x.getPixelForValue(retAge - p.age);
+        ctx.save();
+        ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]);
+        ctx.beginPath(); ctx.moveTo(x, c.scales.y.top); ctx.lineTo(x, c.scales.y.bottom); ctx.stroke();
+        ctx.restore();
+      }
+      if (auto && showAuto) draw(auto.age, '#2d5a27');
+      if (showManual) draw(manualAge, '#2a6496');
+    }
+  };
+
+  if (chart) chart.destroy();
+  chart = new Chart($('chart'), {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 300 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmt(ctx.parsed.y) + ' 萬'
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: '年齡' }, ticks: { autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } },
+        y: {
+          title: { display: true, text: chartMode === 'real' ? '萬元（今日幣值）' : '萬元（名目）' },
+          ticks: { callback: v => v >= 10000 ? (v / 10000).toFixed(1) + ' 億' : v.toLocaleString() },
+          suggestedMin: 0, grid: { color: 'rgba(0,0,0,.04)' }
+        }
+      }
+    },
+    plugins: [retLines]
+  });
+}
+
+function renderTimeline(auto, manual, manualAge, p) {
+  const { age, lifeExp, nw, sal, annualMort, mortEndAge } = p;
+  let tl = '<div class="tl-title">關鍵時間軸</div>';
+  tl += `<div class="tl-item">${age} 歲：起始淨資產 ${fmt(nw)} 萬，家庭年收 ${fmt(sal)} 萬</div>`;
+  if (annualMort > 0) {
+    tl += `<div class="tl-item">房貸月付 ${fmt(annualMort / 12 * 10000)} 元，${mortEndAge} 歲還清（共 ${p.mortYears} 年）</div>`;
+  }
+  if (auto) {
+    tl += `<div class="tl-item tl-highlight">${ageDisplay(auto.age)}：自動計算最早可退休（資產 ${fmt(auto.portfolioAtRetire)} 萬）</div>`;
+    if (auto.age < mortEndAge && annualMort > 0) {
+      const yearsLeft = (mortEndAge - auto.age).toFixed(2);
+      tl += `<div class="tl-item">退休後仍需繳房貸 ${yearsLeft} 年</div>`;
+    }
+  } else {
+    tl += `<div class="tl-item tl-danger">自動計算：無法在 ${lifeExp} 歲前退休</div>`;
+  }
+  tl += `<div class="tl-item tl-blue">${ageDisplay(manualAge)}：自訂退休（資產 ${fmt(manual.portfolioAtRetire)} 萬）</div>`;
+  if (manual.endVal < -0.5 && manual.deplAge) {
+    tl += `<div class="tl-item tl-danger">自訂模式：${ageDisplay(manual.deplAge)} 資產耗盡（早於壽命 ${(lifeExp - manual.deplAge).toFixed(2)} 年）</div>`;
+  } else if (manual.endVal > 100) {
+    tl += `<div class="tl-item">${lifeExp} 歲：自訂模式剩餘 ${fmt(manual.endVal)} 萬</div>`;
+  } else {
+    tl += `<div class="tl-item">${lifeExp} 歲：自訂模式資產歸零</div>`;
+  }
+  $('timeline-wrap').innerHTML = tl;
+}
+
+function renderComments(auto, manual, manualAge, p) {
+  const realReturn = ((1 + p.ret) / (1 + p.inf) - 1) * 100;
+  const mortMonthly = Math.round(p.annualMort / 12 * 10000);
+  const monthExpReal = p.monthExp;
+
+  let cm = '';
+  cm += `<div class="comment-card info"><span class="cc-tag tag-tip">雙軌對照</span>
+    <div class="cc-title">兩種模式說明</div>
+    <div class="cc-body">綠色「自動」以 0.25 年精度搜尋最早可退休年齡，使資產剛好撐到預期壽命歸零。藍色「自訂」自由設定退休年齡（每季為單位），對照觀察提早或延後對資產的影響。</div></div>`;
+
+  cm += `<div class="comment-card info"><span class="cc-tag tag-assumption">模型假設</span>
+    <div class="cc-title">高精度模擬</div>
+    <div class="cc-body">所有計算以「每季」（0.25 年）為一步進行。報酬率、通膨、薪資成長皆以季複利轉換：季率 = (1+年率)<sup>0.25</sup> − 1。資產與支出皆按季更新，比年模擬更貼近實際。</div></div>`;
+
+  cm += `<div class="comment-card info"><span class="cc-tag tag-assumption">模型假設</span>
+    <div class="cc-title">工作期不扣月支出</div>
+    <div class="cc-body">儲蓄率已反映「收入扣除生活開銷後的結餘」。工作期：資產 × 報酬 + 薪資 × 儲蓄率 − 房貸。退休後才以設定月支出（通膨調整後）提領，房貸若未繳清則持續扣。</div></div>`;
+
+  cm += `<div class="comment-card info"><span class="cc-tag tag-assumption">模型假設</span>
+    <div class="cc-title">名目 vs 實質</div>
+    <div class="cc-body">名目報酬 ${(p.ret * 100).toFixed(2)}% − 通膨 ${(p.inf * 100).toFixed(2)}% ≈ 實質報酬 ${realReturn.toFixed(2)}%。圖表上方切換可在「名目」（未來幣值）與「實質」（今日購買力）間切換，幫助理解通膨稀釋效果。</div></div>`;
+
+  if (p.annualMort > 0) {
+    const mortRatio = Math.round(p.annualMort / (p.sal * p.sr) * 100);
+    const mortPlus1 = pmtAnnual(p.mortRate + 0.01, p.mortYears, p.mortTotal);
+    cm += `<div class="comment-card warn"><span class="cc-tag tag-warning">注意事項</span>
+      <div class="cc-title">房貸壓力評估</div>
+      <div class="cc-body">${fmt(p.mortTotal)} 萬房貸月付 ${mortMonthly.toLocaleString()} 元，佔毛儲蓄 ${mortRatio}%。利率每升 1%，月付增 ${fmt((mortPlus1 / 12 - p.annualMort / 12) * 10000)} 元。${p.annualMort > p.sal * p.sr ? '房貸已超過儲蓄能力，需重新評估。' : ''}</div></div>`;
+  }
+
+  if (auto) {
+    const autoExpMonth = p.monthExp * Math.pow(1 + p.inf, auto.age - p.age);
+    cm += `<div class="comment-card"><span class="cc-tag tag-tip">分析</span>
+      <div class="cc-title">通膨 ${auto.age - p.age} 年的威力</div>
+      <div class="cc-body">今日月支出 ${monthExpReal} 萬，退休時等值已膨脹至 <strong>${fmt(autoExpMonth)}</strong> 萬。退休總提領（30 年期計）約 <strong>${fmt(autoExpMonth * 12 * 30 * 1.5)}</strong> 萬名目幣值。通膨是退休規劃最大的隱形敵人。</div></div>`;
+  }
+
+  if (manual.endVal < -0.5 && manual.deplAge) {
+    const gap = auto ? (auto.age - manualAge).toFixed(2) : null;
+    cm += `<div class="comment-card danger"><span class="cc-tag tag-risk">自訂模式警告</span>
+      <div class="cc-title">${ageDisplay(manualAge)} 退休將提早耗盡</div>
+      <div class="cc-body">資產將於 ${ageDisplay(manual.deplAge)} 耗盡，比預期壽命早 ${(p.lifeExp - manual.deplAge).toFixed(2)} 年。${gap && +gap > 0 ? '建議至少延後 <strong>' + gap + ' 年</strong>至 ' + ageDisplay(auto.age) + ' 退休。' : '需大幅調整參數（提高儲蓄率、降低支出、延後退休）。'}</div></div>`;
+  } else if (manual.endVal > 1000 && auto && manualAge > auto.age) {
+    cm += `<div class="comment-card"><span class="cc-tag tag-tip">分析</span>
+      <div class="cc-title">自訂模式有大量剩餘</div>
+      <div class="cc-body">${ageDisplay(manualAge)} 退休至壽終仍剩 ${fmt(manual.endVal)} 萬，可作為遺產或大額醫療支出緩衝。若想提早，可拉動滑桿至 ${ageDisplay(auto.age)} 觀察。</div></div>`;
+  }
+
+  cm += `<div class="comment-card danger"><span class="cc-tag tag-risk">風險提醒</span>
+    <div class="cc-title">未納入的風險因子</div>
+    <div class="cc-body">未涵蓋：醫療長照（退休後可能劇增）、子女教育金、稅務（資本利得、綜所稅）、匯率風險、勞保勞退給付（可降低所需）、重大人生變故、市場順序風險。建議預留 <strong>10–20%</strong> 安全邊際。</div></div>`;
+
+  cm += `<div class="comment-card"><span class="cc-tag tag-tip">建議</span>
+    <div class="cc-title">敏感度測試</div>
+    <div class="cc-body">投報率每降 1%，退休延後約 2–3 年；通膨每增 1%，所需資產增 15–25%；儲蓄率每增 5pp，退休提早 1–2 年。關鍵變數排序：月支出 > 投報率 > 儲蓄率 > 通膨率。</div></div>`;
+
+  $('comments').innerHTML = cm;
+}
+
+// ============================================================
+// Event wiring
+// ============================================================
+loadState();
+updateToggle();
+updateSeriesToggles();
+
+Object.keys(DEFAULTS).forEach(id => {
+  $(id).addEventListener('input', calc);
+});
+
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    chartMode = btn.dataset.mode;
+    updateToggle();
+    calc();
+  });
+});
+
+$('tog-show-auto').addEventListener('click', e => {
+  e.preventDefault();
+  showAuto = !showAuto;
+  updateSeriesToggles();
+  calc();
+});
+$('tog-show-manual').addEventListener('click', e => {
+  e.preventDefault();
+  showManual = !showManual;
+  updateSeriesToggles();
+  calc();
+});
+
+$('reset-btn').addEventListener('click', resetState);
+
+calc();
+</script>
+</body>
+</html>
