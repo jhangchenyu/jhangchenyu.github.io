@@ -7,7 +7,6 @@
 <meta name="description" content="比較自動與自訂退休年齡，調整收入、資產、通膨與房貸條件，查看雙薪家庭的資產走勢。">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="../../assets/vendor/chart.umd-4.4.1.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -198,7 +197,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
     </div>
     <div class="manual-control">
       <label for="i-manual-age">退休年齡</label>
-      <input type="range" id="i-manual-age" min="30" max="80" value="50" step="0.25">
+      <input type="range" id="i-manual-age" min="30" max="100" value="50" step="0.25">
       <span class="mc-val" id="o-manual-age">50 歲</span>
     </div>
   </div>
@@ -217,23 +216,23 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 
     <div class="section-label">基本資料</div>
     <div class="form-row">
-      <div class="form-group"><label for="i-age">目前年齡</label><input type="number" id="i-age" value="35" min="20" max="65"></div>
-      <div class="form-group"><label for="i-life">預期壽命</label><input type="number" id="i-life" value="85" min="60" max="100"></div>
+      <div class="form-group"><label for="i-age">目前年齡</label><input type="number" id="i-age" value="30" min="20" max="65"></div>
+      <div class="form-group"><label for="i-life">預期壽命</label><input type="number" id="i-life" value="100" min="60" max="100"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label for="i-nw1">本人淨資產（萬）</label><input type="number" id="i-nw1" value="500"></div>
-      <div class="form-group"><label for="i-nw2">伴侶淨資產（萬）</label><input type="number" id="i-nw2" value="100"></div>
+      <div class="form-group"><label for="i-nw1">本人淨資產（萬）</label><input type="number" id="i-nw1" value="300"></div>
+      <div class="form-group"><label for="i-nw2">伴侶淨資產（萬）</label><input type="number" id="i-nw2" value="600"></div>
     </div>
     <div class="form-row">
       <div class="form-group"><label for="i-sal1">本人年薪（萬）</label><input type="number" id="i-sal1" value="200"></div>
-      <div class="form-group"><label for="i-sal2">伴侶年薪（萬）</label><input type="number" id="i-sal2" value="200"></div>
+      <div class="form-group"><label for="i-sal2">伴侶年薪（萬）</label><input type="number" id="i-sal2" value="300"></div>
     </div>
-    <div class="form-group full" style="margin-bottom:10px"><label for="i-exp">退休後月支出（萬，今日幣值）</label><input type="number" id="i-exp" value="20"></div>
+    <div class="form-group full" style="margin-bottom:10px"><label for="i-exp">退休後月支出（萬，今日幣值）</label><input type="number" id="i-exp" value="16"></div>
 
     <hr class="sep">
     <div class="section-label">總體經濟假設</div>
     <div class="slider-row"><label for="i-sr">儲蓄率</label><input type="range" id="i-sr" min="10" max="80" value="40" step="1"><span class="slider-val" id="o-sr">40%</span></div>
-    <div class="slider-row"><label for="i-ret">投資報酬率</label><input type="range" id="i-ret" min="0" max="15" value="7" step="0.25"><span class="slider-val" id="o-ret">7.00%</span></div>
+    <div class="slider-row"><label for="i-ret">投資報酬率</label><input type="range" id="i-ret" min="0" max="15" value="10" step="0.25"><span class="slider-val" id="o-ret">10.00%</span></div>
     <div class="slider-row"><label for="i-inf">通膨率</label><input type="range" id="i-inf" min="0" max="8" value="3" step="0.25"><span class="slider-val" id="o-inf">3.00%</span></div>
     <div class="slider-row"><label for="i-sg">薪資成長率</label><input type="range" id="i-sg" min="0" max="10" value="3" step="0.25"><span class="slider-val" id="o-sg">3.00%</span></div>
 
@@ -243,7 +242,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
       <div class="form-group"><label for="i-mort">房貸總額（萬）</label><input type="number" id="i-mort" value="2000"></div>
       <div class="form-group"><label for="i-morty">房貸年限</label><input type="number" id="i-morty" value="30"></div>
     </div>
-    <div class="form-group" style="margin-bottom:0"><label for="i-mortr">房貸利率（%）</label><input type="number" id="i-mortr" value="2.2" step="0.1"></div>
+    <div class="form-group" style="margin-bottom:0"><label for="i-mortr">房貸利率（%）</label><input type="number" id="i-mortr" value="2.5" step="0.1"></div>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:1.5rem">
@@ -278,6 +277,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 </div>
 <div class="footer">退休計畫模擬器 · 僅供參考，不構成投資建議 · 實際情況請諮詢專業理財顧問</div>
 
+<script src="../../assets/vendor/chart.umd-4.4.1.js"></script>
 <script>
 'use strict';
 
@@ -286,7 +286,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 // ============================================================
 const STEP = 0.25;              // quarter-year precision
 const STEPS_PER_YEAR = 4;       // 4 quarters per year
-const STORAGE_KEY = 'retirement_planner_v3';
+const STORAGE_KEY = 'retirement_planner_v4';
+const PREVIOUS_STORAGE_KEY = 'retirement_planner_v3';
 
 const $ = id => document.getElementById(id);
 
@@ -390,6 +391,17 @@ const DEFAULTS = {
   'i-mort': 2000, 'i-morty': 30, 'i-mortr': 2.5,
   'i-manual-age': 50
 };
+// Previous HTML defaults were saved for many visitors even without edits.
+// Keep actual personal changes while allowing untouched values to move to new defaults.
+const PREVIOUS_DEFAULTS = {
+  'i-age': 35, 'i-life': 85,
+  'i-nw1': 500, 'i-nw2': 100,
+  'i-sal1': 200, 'i-sal2': 200,
+  'i-exp': 20,
+  'i-sr': 40, 'i-ret': 7, 'i-inf': 3, 'i-sg': 3,
+  'i-mort': 2000, 'i-morty': 30, 'i-mortr': 2.2,
+  'i-manual-age': 50
+};
 
 let chartMode = 'nominal'; // 'nominal' | 'real'
 let showAuto = true;
@@ -419,6 +431,7 @@ function readInputs() {
 function saveState() {
   const state = {};
   Object.keys(DEFAULTS).forEach(id => state[id] = $(id).value);
+  state.defaults = { ...DEFAULTS };
   state.chartMode = chartMode;
   state.showAuto = showAuto;
   state.showManual = showManual;
@@ -426,10 +439,16 @@ function saveState() {
 }
 
 function loadState() {
+  Object.keys(DEFAULTS).forEach(id => $(id).value = DEFAULTS[id]);
   try {
-    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const current = localStorage.getItem(STORAGE_KEY);
+    const fromPreviousVersion = current === null;
+    const state = JSON.parse(current || localStorage.getItem(PREVIOUS_STORAGE_KEY) || '{}');
+    const savedDefaults = state.defaults || (fromPreviousVersion ? PREVIOUS_DEFAULTS : DEFAULTS);
     Object.keys(DEFAULTS).forEach(id => {
-      if (state[id] !== undefined) $(id).value = state[id];
+      if (state[id] === undefined) return;
+      if (String(state[id]) === String(savedDefaults[id] ?? DEFAULTS[id])) return;
+      $(id).value = state[id];
     });
     if (state.chartMode) chartMode = state.chartMode;
     if (state.showAuto !== undefined) showAuto = state.showAuto;

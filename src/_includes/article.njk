@@ -10,7 +10,7 @@ layout: base.njk
   <div class="post-meta"><span>jimjcy</span><time datetime="{{ page.date | dateText }}">{{ dateLabel or '發布' }} {{ page.date | dateText }}</time><span>{{ content | readTime }} 分鐘閱讀</span>{% if updated %}<span>更新 {{ updated | dateText }}</span>{% endif %}</div>
   <div class="article-tags">{% for tag in tags %}<a href="{{ '/articles/' | url }}?q={{ tag | urlencode }}">#{{ tag }}</a>{% endfor %}</div>
 </header>
-{% if cover %}<figure class="post-cover"><img src="{{ cover | url }}" alt="{{ coverAlt }}" decoding="async"><figcaption>主題概念圖，非真實資料或產品照片。</figcaption></figure>{% endif %}
+{% if cover %}<figure class="post-cover"><picture>{% set mobileCover = cover | coverVariant('small') %}{% if mobileCover != cover %}<source media="(max-width: 800px)" srcset="{{ mobileCover | url }}" type="image/webp">{% endif %}<img src="{{ cover | url }}" alt="{{ coverAlt }}" decoding="async" fetchpriority="high"></picture><figcaption>主題概念圖，非真實資料或產品照片。</figcaption></figure>{% endif %}
 <div class="post-layout">
   <aside class="post-toc"><details{% if tocOpen != false %} open{% endif %}><summary>這篇文章的內容</summary><ol>{{ content | toc | safe }}</ol></details></aside>
   <article class="prose">

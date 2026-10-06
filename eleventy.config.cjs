@@ -1,4 +1,6 @@
 const markdownIt = require('markdown-it');
+const fs = require('node:fs');
+const path = require('node:path');
 const site = require('./src/_data/site.json');
 const topics = require('./src/_data/topics.json');
 const basePath = process.env.SITE_BASE_PATH || site.basePath;
@@ -8,6 +10,12 @@ const plainText = value => String(value || '').replace(/<[^>]*>/g, ' ').replace(
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const articleDate = value => new Date(value).toISOString().slice(0, 10);
 const prefix = value => `${basePath.replace(/\/$/, '')}/${String(value).replace(/^\//, '')}`;
+const coverVariant = (value, size) => {
+  const original = String(value || '');
+  if (!/\.webp$/i.test(original)) return original;
+  const variant = original.replace(/\.webp$/i, `-${size}.webp`);
+  return fs.existsSync(path.join(__dirname, 'src', variant.replace(/^\//, ''))) ? variant : original;
+};
 
 module.exports = function(config) {
   config.addPassthroughCopy({ 'src/assets': 'assets' });
@@ -28,6 +36,7 @@ module.exports = function(config) {
   });
   config.setLibrary('md', md);
   config.addFilter('dateText', articleDate);
+  config.addFilter('coverVariant', coverVariant);
   config.addFilter('topicFor', id => topics.find(topic => topic.id === id));
   config.addFilter('inTopic', (articles, id) => articles.filter(article => article.data.category === id));
   config.addFilter('inSection', (articles, section) => articles.filter(article => topics.find(t => t.id === article.data.category)?.section === section));
@@ -49,6 +58,7 @@ module.exports = function(config) {
     category: article.data.category, categoryName: topics.find(t => t.id === article.data.category).name,
     tags: article.data.tags || [], date: articleDate(article.date),
     cover: article.data.cover ? prefix(article.data.cover) : null,
+    coverThumb: article.data.cover ? prefix(coverVariant(article.data.cover, 'thumb')) : null,
     coverAlt: article.data.coverAlt || '',
     text: plainText(article.templateContent), url: prefix(article.url)
   })));

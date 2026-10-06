@@ -4,7 +4,7 @@ description: "把 Hybrid Bonding 拆成 CMP、金屬化、清洗活化、疊對�
 date: "2026-06-09"
 category: packaging-sipi
 slug: hybrid-bonding-supply-chain
-cover: /assets/images/hybrid-bonding-process.png
+cover: /assets/images/hybrid-bonding-process.webp
 coverAlt: "兩片晶片的介電層與銅接點精密對位、準備接合的概念插畫"
 tags: [Hybrid Bonding, 先進封裝, 供應鏈, 半導體設備]
 status: published

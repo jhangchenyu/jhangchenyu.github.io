@@ -4,7 +4,7 @@ description: "依原始索引的 30 個分類，完整列出 319 個標準關鍵
 date: "2026-10-06"
 category: singularity
 slug: advanced-packaging-research-keywords-map
-cover: /assets/images/research-keyword-index.png
+cover: /assets/images/research-keyword-index.webp
 coverAlt: "有序排列的半透明索引卡片，呈現跨領域研究資料的概念插畫"
 tags: [研究關鍵字, 技術索引]
 status: published

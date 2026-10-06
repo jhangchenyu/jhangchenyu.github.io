@@ -4,7 +4,7 @@ description: "記下玻璃基板、CPO、先進製程、儲存、量子計算、
 date: "2026-10-06"
 category: singularity
 slug: investment-ideas-2026
-cover: /assets/images/investment-ideas-2026.png
+cover: /assets/images/investment-ideas-2026.webp
 coverAlt: "研究桌上陳列玻璃基板、晶片、光纖、電源與機器零件等樣本的概念插畫"
 tags: [投資想法, "2026", 科技趨勢, 觀察清單]
 status: published

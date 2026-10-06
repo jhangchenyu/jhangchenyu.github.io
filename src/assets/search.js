@@ -38,10 +38,12 @@
         thumb.href = entry.url;
         thumb.setAttribute('aria-label', `閱讀：${entry.title}`);
         const img = document.createElement('img');
-        img.src = entry.cover;
+        img.src = entry.coverThumb || entry.cover;
         img.alt = entry.coverAlt || '';
         img.loading = 'lazy';
         img.decoding = 'async';
+        img.width = 480;
+        img.height = 270;
         thumb.append(img);
         side.append(thumb);
       }
