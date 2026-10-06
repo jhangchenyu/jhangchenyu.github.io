@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <meta name="theme-color" content="#172729">
+  <link rel="canonical" href="{{ page.url | absolute }}">
+  <link rel="icon" href="{{ '/assets/favicon.svg' | url }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ '/assets/style.css' | url }}?v=3">
+  <script src="{{ '/assets/motion.js' | url }}?v=3" defer></script>
+  {% if searchPage %}<script src="{{ '/assets/search.js' | url }}?v=3" defer></script>{% endif %}
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要內容</a>
+  <div class="wrap">
+    <header class="site-header">
+      <a class="brand" href="{{ '/' | url }}" aria-label="jimjcy 個人首頁"><span class="brand-mark" aria-hidden="true">j.</span>jimjcy<span class="brand-note">研究與日常</span></a>
+      <nav class="site-nav" aria-label="主要導覽">
+        <a href="{{ '/' | url }}"{% if navSection == 'about' %} aria-current="page"{% endif %}>個人</a>
+        <a href="{{ '/research/' | url }}"{% if navSection == 'research' %} aria-current="page"{% endif %}>研究主題</a>
+        <a href="{{ '/journal/' | url }}"{% if navSection == 'journal' %} aria-current="page"{% endif %}>個人日誌</a>
+        <a href="{{ '/links/' | url }}"{% if navSection == 'links' %} aria-current="page"{% endif %}>推薦網站</a>
+        <a href="{{ '/articles/' | url }}"{% if navSection == 'articles' %} aria-current="page"{% endif %}>文章索引</a>
+      </nav>
+      <button class="motion-toggle" type="button" hidden>暫停動畫</button>
+    </header>
+    <main id="main">{{ content | safe }}</main>
+    <footer class="site-footer">
+      <div><a class="footer-brand" href="{{ '/' | url }}">jimjcy</a><p>研究、工程，與生活裡的筆記。</p></div>
+      <div class="footer-socials">{% for social in site.socials %}<a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.name }}</a>{% endfor %}</div>
+      <p class="footer-meta">© {{ buildYear }} jimjcy<br><a href="#main">回到頂端</a></p>
+    </footer>
+  </div>
+</body>
+</html>

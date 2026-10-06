@@ -1,0 +1,22 @@
+---
+layout: base.njk
+---
+{% set topic = category | topicFor %}
+<nav class="breadcrumb" aria-label="麵包屑"><a href="{{ '/' | url }}">個人</a><span>/</span><a href="{{ topic.path | url }}">{{ topic.name }}</a><span>/</span><span>文章</span></nav>
+<header class="post-header">
+  <p class="eyebrow">{{ topic.english }}</p>
+  <h1>{{ title }}</h1>
+  <p class="post-description">{{ description }}</p>
+  <div class="post-meta"><span>jimjcy</span><time datetime="{{ page.date | dateText }}">{{ page.date | dateText }}</time><span>{{ content | readTime }} 分鐘閱讀</span>{% if updated %}<span>更新 {{ updated | dateText }}</span>{% endif %}</div>
+  <div class="article-tags">{% for tag in tags %}<a href="{{ '/articles/' | url }}?q={{ tag | urlencode }}">#{{ tag }}</a>{% endfor %}</div>
+</header>
+<div class="post-layout">
+  <aside class="post-toc"><details open><summary>這篇文章的內容</summary><ol>{{ content | toc | safe }}</ol></details></aside>
+  <article class="prose">
+    {% if sourceNote %}<p class="source-note">{{ sourceNote }}</p>{% endif %}
+    {{ content | safe }}
+    <div class="post-end"><span>— jimjcy</span><a href="{{ topic.path | url }}">回到{{ topic.name }}</a></div>
+  </article>
+</div>
+{% set articleList = collections.articles | inTopic(category) | exceptArticle(slug) | latest(4) %}
+{% if articleList.length %}<section class="related-section"><div class="section-title"><p class="eyebrow">KEEP READING</p><h2>繼續閱讀</h2></div>{% include 'article-list.njk' %}</section>{% endif %}

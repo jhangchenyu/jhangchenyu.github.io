@@ -1,0 +1,19 @@
+---
+layout: base.njk
+navSection: about
+description: jimjcy 的個人網站。從離子阱研究到半導體工程，記錄研究與生活。
+---
+<section class="hero" aria-labelledby="intro-title">
+  <div class="hero-copy"><p class="eyebrow">RESEARCHER → ENGINEER → WRITER</p><h1 id="intro-title">jimjcy<span>從量子實驗，<br>到半導體現場。</span></h1><p class="lead">我是 Jim。從離子阱研究轉入半導體，<br>希望用工程師的角度理解產業，<br>把研究的線索與生活的片段，寫成筆記。</p><div class="social-links">{% for social in site.socials %}<a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.name }}<span class="sr-only">（開啟新分頁）</span></a>{% endfor %}</div></div>
+  <aside class="focus-panel"><div class="focus-heading"><span>ON MY RADAR</span><span>持續觀察中</span></div><p class="focus-title">從訊號，到系統。<br>從技術，到產業。</p><ol class="focus-list"><li><span>01</span>先進封裝與玻璃基板</li><li><span>02</span>訊號與電源完整性</li><li><span>03</span>矽光子、內嵌電容與 IVR</li><li><span>04</span>量子計算與實驗控制</li></ol><a href="{{ '/research/' | url }}">查看研究主題</a></aside>
+</section>
+<section class="content-section" id="about" aria-labelledby="about-title"><div class="section-heading"><p class="eyebrow">01 / ABOUT</p><h2 id="about-title">關於我</h2></div><div class="section-body"><p class="intro-statement">物理是起點，工程是日常。<br>寫下來，是為了把問題想清楚。</p><p>我的背景是物理與離子阱量子計算，目前從事 SI/PI 自動化工程。工作涵蓋先進封裝電磁建模、訊號與電源完整性分析，以及模擬流程自動化。</p><p>曾參與 EMIB、CoWoS 等先進封裝建模，以及 Clarity 電磁模擬、S 參數後處理、Broadband SPICE 驗證與 ADS 自動化。這裡整理研究與工程筆記，也保留工作、旅行和生活裡的觀察。</p></div></section>
+<section class="content-section" aria-labelledby="career-title"><div class="section-heading"><p class="eyebrow">02 / EXPERIENCE</p><h2 id="career-title">走過的路</h2></div><div class="section-body"><ol class="timeline">
+<li><span class="period">2025.02 — 現在</span><div><h3>Qualcomm · SI/PI Automation Engineer</h3><p>先進封裝建模、SI/PI 分析與模擬自動化。</p></div></li>
+<li><span class="period">2024.01 — 2025.02</span><div><h3>Cadence · Product Engineer</h3><p>3DIC 電磁建模、模擬自動化與產品驗證。</p></div></li>
+<li><span class="period">2023.07 — 2024.01</span><div><h3>EXPERT · SI/PI (Burn-in) Engineer</h3><p>SI/PI、PCB 與 SerDes 分析，以及流程自動化。</p></div></li>
+<li><span class="period">2022.05 — 2022.06</span><div><h3>Hon Hai · Quantum Computation Researcher</h3><p>離子阱量子計算研究與系統建置。</p></div></li>
+<li><span class="period">物理學背景</span><div><h3>國立清華大學 · 物理學碩士、學士</h3><p>從量子物理研究，走向半導體工程。</p></div></li>
+</ol><p class="subtle-note">更多經歷與詳細資訊，見 <a href="https://www.linkedin.com/in/chenyujhang" target="_blank" rel="noopener noreferrer">LinkedIn</a>。</p></div></section>
+<section class="latest-section"><div class="section-title"><div><p class="eyebrow">LATEST NOTES</p><h2>最近寫下的</h2></div><a href="{{ '/articles/' | url }}">所有文章</a></div>{% set articleList = collections.articles | latest(4) %}{% include 'article-list.njk' %}</section>
+<section class="home-portals"><a href="{{ '/research/' | url }}"><span class="eyebrow">RESEARCH</span><h2>研究主題</h2><p>以問題為起點，沿著技術與產業持續追蹤。</p><span class="portal-label">進入研究筆記</span></a><a href="{{ '/journal/' | url }}"><span class="eyebrow">JOURNAL</span><h2>個人日誌</h2><p>工作、旅遊，以及生活裡不必急著歸類的事。</p><span class="portal-label">翻開個人日誌</span></a></section>

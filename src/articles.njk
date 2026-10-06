@@ -1,0 +1,11 @@
+---
+layout: base.njk
+title: 文章索引
+navSection: articles
+permalink: /articles/index.html
+searchPage: true
+---
+<div class="page-intro"><p class="eyebrow">ALL NOTES, ONE PLACE</p><h1>文章索引<span class="english-heading">Find a thread.</span></h1><p class="lead">依主題找文章，也可以搜尋標題、標籤或內文。</p></div>
+<form class="search-form" role="search" data-search-index="{{ '/search-index.json' | url }}" hidden><div><label for="article-search">搜尋文章</label><input id="article-search" type="search" name="q" placeholder="例如：離子阱、PDN、工作…" autocomplete="off"></div><div><label for="category-filter">文章分類</label><select id="category-filter" name="category"><option value="">所有分類</option>{% for topic in topics %}<option value="{{ topic.id }}">{{ topic.name }}</option>{% endfor %}</select></div><button type="reset">清除</button></form>
+<p class="search-status" role="status" aria-live="polite" data-search-status>共 {{ collections.articles.length }} 篇公開文章</p>
+<div data-search-results>{% set articleList = collections.articles %}{% include 'article-list.njk' %}</div>

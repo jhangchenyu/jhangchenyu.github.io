@@ -1,0 +1,14 @@
+{% if articleList.length %}
+<div class="article-list">
+{% for post in articleList %}
+  {% set topic = post.data.category | topicFor %}
+  <article class="article-row">
+    <div class="article-meta"><span>{{ topic.name }}</span><time datetime="{{ post.date | dateText }}">{{ post.date | dateText }}</time></div>
+    <div><h3><a href="{{ post.url | url }}">{{ post.data.title }}</a></h3><p>{{ post.data.description }}</p><div class="article-tags">{% for tag in post.data.tags %}<span>#{{ tag }}</span>{% endfor %}</div></div>
+    <span class="read-time">{{ post.templateContent | readTime }} 分鐘閱讀</span>
+  </article>
+{% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><span class="empty-line" aria-hidden="true"></span><h3>這一頁，留給下一篇。</h3><p>這個分類還沒有公開文章。之後的新筆記會收錄在這裡。</p><a href="{{ '/articles/' | url }}">瀏覽所有文章</a></div>
+{% endif %}

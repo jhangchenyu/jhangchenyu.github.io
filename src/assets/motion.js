@@ -71,7 +71,7 @@
         reveal.unobserve(entry.target);
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.content-section, .research-section, .workflow li')
+    document.querySelectorAll('.content-section, .research-section, .workflow li, .topic-card, .article-row, .home-portals > a')
       .forEach(element => reveal.observe(element));
 
     const figure = document.querySelector('.science-figure');
