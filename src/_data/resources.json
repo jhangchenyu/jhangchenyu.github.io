@@ -1,13 +1,20 @@
 [
   { "name": "凝視奇點的物理學徒", "url": "https://physics2045.blog/", "host": "physics2045.blog", "group": "個人部落格", "type": "個人部落格", "description": "物理、量子資訊、加密貨幣與未來文明的長期筆記，包含技術文章、閱讀心得與生活紀錄。" },
   { "name": "NIST Quantum Information Science", "url": "https://www.nist.gov/quantum-information-science", "host": "nist.gov", "group": "量子計算", "type": "官方研究機構", "description": "量子計算、感測與網路的研究計畫及基礎解說。" },
+  { "name": "IonQ", "url": "https://www.ionq.com/", "host": "ionq.com", "group": "量子計算", "type": "量子運算公司", "description": "追蹤離子阱量子電腦的產品、技術與公司公告。" },
   { "name": "arXiv · Quantum Physics", "url": "https://arxiv.org/list/quant-ph/recent", "host": "arxiv.org", "group": "量子計算", "type": "論文與預印本平台", "description": "追蹤量子物理與量子資訊的新論文；閱讀時另行確認同行審查與出版狀態。" },
   { "name": "IEEE Heterogeneous Integration Roadmap", "url": "https://eps.ieee.org/technology/heterogeneous-integration-roadmap/", "host": "eps.ieee.org", "group": "先進封裝 SI/PI", "type": "官方學會", "description": "從異質整合路線圖理解封裝、互連、散熱與測試的技術挑戰。" },
   { "name": "IBIS Open Forum", "url": "https://www.ibis.org/", "host": "ibis.org", "group": "先進封裝 SI/PI", "type": "產業標準組織", "description": "查找 IBIS、IBIS-AMI、Touchstone 規格與模型資料，研究高速互連與訊號完整性。" },
+  { "name": "Simple Tech Trend", "url": "https://www.simpletechtrend.com/", "host": "simpletechtrend.com", "group": "先進封裝 SI/PI", "type": "技術網站", "description": "閱讀光通訊、矽光子與 CPO 的技術及產業文章。" },
+  { "name": "KAIST TeraLab", "url": "https://tera.kaist.ac.kr/home", "host": "tera.kaist.ac.kr", "group": "先進封裝 SI/PI", "type": "大學研究團隊", "description": "研究高速互連、封裝與訊號／電源完整性，並分享公開講座資料。" },
+  { "name": "Semiconductor Engineering", "url": "https://semiengineering.com/", "host": "semiengineering.com", "group": "先進封裝 SI/PI", "type": "產業技術媒體", "description": "追蹤晶片設計、製造與先進封裝的工程議題。" },
   { "name": "arXiv · Artificial Intelligence", "url": "https://arxiv.org/list/cs.AI/recent", "host": "arxiv.org", "group": "AI 與科技趨勢", "type": "論文與預印本平台", "description": "追蹤 AI 方法、推理與代理系統的研究；預印本不等同已完成同行審查。" },
   { "name": "Google DeepMind Publications", "url": "https://deepmind.google/research/publications/", "host": "deepmind.google", "group": "AI 與科技趨勢", "type": "產業研究團隊", "description": "閱讀團隊公開的 AI 方法、模型評估與科學應用論文。" },
+  { "name": "Quantium", "url": "https://quantium.com/", "host": "quantium.com", "group": "AI 與科技趨勢", "type": "資料分析與 AI 公司", "description": "了解企業資料分析、決策科學與 AI 應用案例。" },
   { "name": "Stanford HAI · AI Index", "url": "https://hai.stanford.edu/ai-index", "host": "hai.stanford.edu", "group": "AI 與科技趨勢", "type": "大學研究機構", "description": "透過年度報告觀察 AI 技術能力、採用情況與社會影響。" },
   { "name": "OECD · AI and Work", "url": "https://www.oecd.org/en/topics/ai-and-work.html", "host": "oecd.org", "group": "AI 與科技趨勢", "type": "國際組織", "description": "了解 AI 與工作、技能、就業及生產力的關係。" },
   { "name": "DARPA Programs", "url": "https://www.darpa.mil/research/programs", "host": "darpa.mil", "group": "軍工與前沿技術", "type": "官方機構", "description": "從公開研究計畫理解國防科技的目標與研究方向。" },
+  { "name": "Anduril", "url": "https://www.anduril.com/", "host": "anduril.com", "group": "軍工與前沿技術", "type": "國防科技公司", "description": "追蹤自主系統與國防科技的產品及公司公告。" },
+  { "name": "Shield AI", "url": "https://shield.ai/", "host": "shield.ai", "group": "軍工與前沿技術", "type": "國防科技公司", "description": "了解自主飛行技術、國防 AI 與公司公開資訊。" },
   { "name": "NATO STO · Science & Technology Trends", "url": "https://sto-trends.com/", "host": "sto-trends.com", "group": "軍工與前沿技術", "type": "官方研究報告", "description": "閱讀 AI、量子、生技等技術趨勢及其相互關係。" }
 ]
