@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">矽光子被動光路</title>
+  <desc id="desc">光纖把光送入晶片波導，方向耦合器將光分到兩條路徑。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#edf3f7"/><stop offset="1" stop-color="#f9fbf6"/></linearGradient>
+    <linearGradient id="light"><stop stop-color="#77b9e9"/><stop offset="1" stop-color="#1953aa"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g fill="none" stroke="#d3dee6" stroke-width="2" opacity=".7">
+    <path d="M0 105H1200M0 210H1200M0 315H1200M0 420H1200M0 525H1200"/>
+    <path d="M100 0V630M250 0V630M400 0V630M550 0V630M700 0V630M850 0V630M1000 0V630M1150 0V630"/>
+  </g>
+  <rect x="345" y="112" width="760" height="405" rx="28" fill="#ffffff" stroke="#c5d5df" stroke-width="3"/>
+  <rect x="378" y="145" width="694" height="339" rx="14" fill="#e8f1f4"/>
+  <path d="M70 315H326" stroke="#6a7f8b" stroke-width="54" stroke-linecap="round"/>
+  <path d="M70 315H326" stroke="#e0eff7" stroke-width="22" stroke-linecap="round"/>
+  <path d="M345 315H590C690 315 694 270 786 270H1040" fill="none" stroke="#244a68" stroke-width="26" stroke-linecap="round"/>
+  <path d="M345 315H590C690 315 694 370 786 370H1040" fill="none" stroke="#244a68" stroke-width="26" stroke-linecap="round"/>
+  <path d="M345 315H590C690 315 694 270 786 270H1040" fill="none" stroke="url(#light)" stroke-width="9" stroke-linecap="round"/>
+  <path d="M345 315H590C690 315 694 370 786 370H1040" fill="none" stroke="url(#light)" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="572" cy="315" r="19" fill="#f2b94b" stroke="#fff" stroke-width="6"/>
+  <circle cx="833" cy="270" r="13" fill="#f2b94b"/>
+  <circle cx="833" cy="370" r="13" fill="#f2b94b"/>
+  <g fill="#39576b" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="3">
+    <text x="84" y="390">FIBER</text>
+    <text x="410" y="204">SOI WAVEGUIDE</text>
+    <text x="725" y="446">COUPLER</text>
+  </g>
+</svg>

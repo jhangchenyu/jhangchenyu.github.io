@@ -33,6 +33,15 @@ for (const file of files.filter(file => file.endsWith('.html'))) {
     checked++;
   }
 }
-for (const file of files) if (/\.(?:md|pdf|env|cjs)$/.test(file) || /[\\/]drafts[\\/]/.test(file)) failures.push(`Unexpected published source: ${file}`);
+const approvedDocuments = new Set([
+  'assets/documents/silicon-photonics.pdf',
+  'assets/documents/silicon-photonics.pptx'
+]);
+for (const file of files) {
+  const relative = path.relative(root, file).replaceAll('\\', '/');
+  if ((/\.(?:md|pdf|env|cjs)$/.test(file) && !approvedDocuments.has(relative)) ||
+      (relative.startsWith('assets/documents/') && !approvedDocuments.has(relative)) ||
+      /[\\/]drafts[\\/]/.test(file)) failures.push(`Unexpected published source: ${file}`);
+}
 if (failures.length) { console.error(failures.join('\n')); process.exit(1); }
 console.log(`Verified ${files.filter(file => file.endsWith('.html')).length} HTML pages and ${checked} local links/assets.`);
