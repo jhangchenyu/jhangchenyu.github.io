@@ -2,6 +2,7 @@
   { "name": "凝視奇點的物理學徒", "url": "https://physics2045.blog/", "host": "physics2045.blog", "group": "個人部落格", "type": "個人部落格", "description": "物理、量子資訊、加密貨幣與未來文明的長期筆記，包含技術文章、閱讀心得與生活紀錄。" },
   { "name": "網際星空 · 2025 新春隨筆", "url": "https://www.oldfriend.url.tw/article/2025.html", "host": "oldfriend.url.tw", "group": "個人部落格", "type": "個人隨筆", "description": "站長回顧工作職涯、退休與人生下半場的文章；網站另有 SI/PI 入門資料。" },
   { "name": "麥樹仁（Makssin）", "url": "https://makssin.blogspot.com/", "host": "makssin.blogspot.com", "group": "個人部落格", "type": "產業與投資筆記", "description": "整理台灣半導體、電子零組件與相關公司的產業觀察。" },
+  { "name": "未來交易週報", "url": "https://quaily.com/futureweekly", "host": "quaily.com", "group": "個人部落格", "type": "美股市場週報", "description": "Austin 撰寫的美股市場週報，從市場情緒、技術面與籌碼觀察股市動態。" },
   { "name": "NIST Quantum Information Science", "url": "https://www.nist.gov/quantum-information-science", "host": "nist.gov", "group": "Other", "type": "官方研究機構", "description": "量子計算、感測與網路的研究計畫及基礎解說。" },
   { "name": "IonQ", "url": "https://www.ionq.com/", "host": "ionq.com", "group": "量子計算", "type": "量子運算公司", "description": "追蹤離子阱量子電腦的產品、技術與公司公告。" },
   { "name": "Quantinuum", "url": "https://www.quantinuum.com/", "host": "quantinuum.com", "group": "量子計算", "type": "量子運算公司", "description": "追蹤量子電腦、開發工具與量子應用的產品及研究資訊。" },
